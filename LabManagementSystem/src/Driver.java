@@ -9,6 +9,11 @@ import javax.swing.JTextField;
 public class Driver {
 	public static void main(String[] args) {
 		ArrayList<String> inputs = new ArrayList<String>();
+		
+		User testUser;
+		
+		String[] sampleUsernames = {"Standard", "Manager", "Admin"};
+		String[] samplePass = {"Jeff", "megasuperbanana", "123456"};
 	    Graphics g = new Graphics();
 	
 	    g.createLoginView();
@@ -19,7 +24,19 @@ public class Driver {
 			System.out.println("Database could not be accessed. \nQuitting......");
 			System.exit(0);
 		}
-	    while(true) {
+	    
+	    
+	    boolean signInSuccessful = false;
+	    while(!signInSuccessful) {
+	    	
+	    	g.createUserSignIn();
+	    	inputs = g.getInputs();
+	    	
+	    	for(int i = 0; i < sampleUsernames.length; i++){
+	    		if(inputs.get(0).equals(sampleUsernames[i]) && inputs.get(0).equals(samplePass[i])){
+	    			testUser = new User(i);
+	    		}
+	    	}
 	    	
 	    }
 	}

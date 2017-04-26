@@ -18,7 +18,7 @@ public class Graphics {
 	}
 	
 	public void createLoginView() {
-		
+		inputFields = new ArrayList<String>();
 		final String username;
 	    final char[] password;
 		{
@@ -45,16 +45,33 @@ public class Graphics {
 		inputFields.add(username);
 		inputFields.add(new String(password));
 	}
+
+	public void createUserSignIn() {
+		inputFields = new ArrayList<String>();
+		final String username;
+	    final char[] password;
+		{
+		    JTextField user = new JTextField();
+		    JPasswordField pass = new JPasswordField();
+		    JTextField table = new JTextField();
+	        int result = JOptionPane.showConfirmDialog(
+	        	null, 
+	        	new Object[]{
+	    			new JLabel("Username:"), user,
+	    			new JLabel("Password:"), pass
+	        	}, 
+	        	"View Table", 
+	        	JOptionPane.OK_CANCEL_OPTION
+	        );
 	
-	public void createAddUserView() {
+	        if (result != JOptionPane.OK_OPTION)
+	        	System.exit(0);
 		
-	}
-	
-	public void createAddSupplyView() {
+	        username = user.getText();
+	        password = pass.getPassword();
+		}
 		
-	}
-	
-	public void createCheckoutView(){
-		
+		inputFields.add(username);
+		inputFields.add(new String(password));
 	}
 }
