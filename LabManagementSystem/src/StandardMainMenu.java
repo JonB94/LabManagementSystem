@@ -17,7 +17,6 @@ public class StandardMainMenu extends JPanel {
 
 	private JButton projectsButton;
 	private JButton checkoutButton;
-	private JTextArea outputArea;
 	private SpringLayout currentLayout;
 	private JScrollPane scroll;
 	
@@ -28,12 +27,7 @@ public class StandardMainMenu extends JPanel {
 		currentLayout = new SpringLayout();
 		currentLayout.putConstraint(SpringLayout.SOUTH, projectsButton, -283, SpringLayout.SOUTH, this);
 		currentLayout.putConstraint(SpringLayout.EAST, projectsButton, -66, SpringLayout.EAST, this);
-		outputArea = new JTextArea();
-		outputArea.setPreferredSize(new Dimension(450,1000));
-		outputArea.setBackground(UIManager.getColor("FormattedTextField.selectionBackground"));
-		outputArea.setEditable(true);
-		scroll = new JScrollPane (outputArea, 
-				   JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll = new JScrollPane (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroll.setPreferredSize(new Dimension(500,600));
 		
 		
@@ -44,10 +38,19 @@ public class StandardMainMenu extends JPanel {
 		setBackground(new Color(255,255,255));
 		this.setLayout(currentLayout);
 		this.add(projectsButton);
-		this.add(scroll);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Manager");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 27, SpringLayout.SOUTH, projectsButton);
+		currentLayout.putConstraint(SpringLayout.WEST, btnNewButton, 244, SpringLayout.EAST, scroll);
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -233, SpringLayout.SOUTH, this);
+		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton, -66, SpringLayout.EAST, this);
+		currentLayout.putConstraint(SpringLayout.WEST, projectsButton, 0, SpringLayout.WEST, btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		add(btnNewButton);
+		this.add(scroll);
 		
 	}
 }
