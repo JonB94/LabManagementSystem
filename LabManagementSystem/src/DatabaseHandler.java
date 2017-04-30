@@ -70,6 +70,10 @@ public class DatabaseHandler {
 		return null;
 	}
 	
+	public ResultSet getResultSet(){
+		return rs;
+	}
+	
 	public static DatabaseHandler getDatabaseHandler() throws SQLException {
 		if(db == null)
 			db = new DatabaseHandler();

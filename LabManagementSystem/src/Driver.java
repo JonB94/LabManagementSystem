@@ -10,7 +10,7 @@ public class Driver {
 	public static void main(String[] args) {
 		ArrayList<String> inputs = new ArrayList<String>();
 		
-		User testUser;
+		User testUser = null;
 		
 		String[] sampleUsernames = {"Standard", "Manager", "Admin"};
 		String[] samplePass = {"Jeff", "megasuperbanana", "123456"};
@@ -33,10 +33,19 @@ public class Driver {
 	    	inputs = g.getInputs();
 	    	
 	    	for(int i = 0; i < sampleUsernames.length; i++){
-	    		if(inputs.get(0).equals(sampleUsernames[i]) && inputs.get(0).equals(samplePass[i])){
-	    			testUser = new User(i);
+	    		if(inputs.get(0).equals(sampleUsernames[i]) && inputs.get(1).equals(samplePass[i])){
+	    			testUser = User.getUser(i);
 	    		}
 	    	}
+	    	signInSuccessful = testUser != null;
+	    }
+	    
+	    MainFrame menus = new MainFrame();
+	    if(testUser.getUserType() == User.USER_RESEARCHER){
+	    	menus.loadNewFrame(new StandardMainMenu());
+	    }else if(testUser.getUserType() == User.USER_SUPERVISOR){
+	    	menus.loadNewFrame(new SupervisorMainMenu());
+	    }else if(testUser.getUserType() == User.USER_ADMIN){
 	    	
 	    }
 	}

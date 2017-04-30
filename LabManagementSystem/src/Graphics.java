@@ -60,7 +60,7 @@ public class Graphics {
 	    			new JLabel("Username:"), user,
 	    			new JLabel("Password:"), pass
 	        	}, 
-	        	"View Table", 
+	        	"User login", 
 	        	JOptionPane.OK_CANCEL_OPTION
 	        );
 	

@@ -7,6 +7,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JMenu;
@@ -15,12 +17,12 @@ import java.awt.Color;
 import java.awt.Button;
 
 
-public class Manager extends JPanel {
+public class SupervisorMainMenu extends JPanel {
 
 	/**
 	 * Create the panel.
 	 */
-	public Manager() {
+	public SupervisorMainMenu() {
 		setLayout(null);
 		
 		JButton addMaterials = new JButton("Add Materials");
@@ -39,7 +41,7 @@ public class Manager extends JPanel {
 		menuBar.add(menu);
 		menu.setForeground(Color.BLACK);
 		menu.setBackground(Color.GRAY);
-		menu.setSelectedIcon(new ImageIcon(Manager.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-dark-pressed.png")));
+		menu.setSelectedIcon(new ImageIcon(SupervisorMainMenu.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-dark-pressed.png")));
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Open Main Menu");
 		menu.add(mntmNewMenuItem);
@@ -58,6 +60,7 @@ public class Manager extends JPanel {
 		add(projects);
 
 	}
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
