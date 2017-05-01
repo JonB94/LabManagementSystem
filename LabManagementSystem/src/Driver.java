@@ -12,7 +12,7 @@ public class Driver {
 		
 		User testUser = null;
 		
-		String[] sampleUsernames = {"Standard", "Manager", "Admin"};
+		String[] sampleUsernames = {"Standard", "Supervisor", "Admin"};
 		String[] samplePass = {"Jeff", "megasuperbanana", "123456"};
 	    Graphics g = new Graphics();
 	
