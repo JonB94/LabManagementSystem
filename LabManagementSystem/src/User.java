@@ -78,6 +78,50 @@ public class User {
 		return query;
 	}
 	
+	public String getOverCheckoutUsers(){
+		final String query = "SELECT FIRST_NAME, LAST_NAME, C.EMPLOYEE_ID AS \"Emp_id\", COUNT(*) AS \"Items\" "
+							+ "FROM CHECKS_OUT C, RESEARCHERS R "
+							+ "WHERE R.EMPLOYEE_ID = C.EMPLOYEE_ID AND AMOUNT_RETURNED < AMOUNT "
+							+ " GROUP BY FIRST_NAME, LAST_NAME, C.EMPLOYEE_ID "
+							+ "HAVING COUNT(*) >= 5";
+		return query;
+	}
+	
+	public String getResearchersUnderSup(){
+		final String query = "SELECT R.First_name, R.Last_name, R.Employee_id "
+							+ "FROM RESEARCHERS R LEFT OUTER JOIN RESEARCHERS S on R.Supervisor_id = S.Employee_id "
+							+ "WHERE R.SUPERVISOR_ID = S.EMPLOYEE_ID AND S.First_name = '?' "
+							+ "AND S.Last_name = '?' "
+							+ "ORDER BY R.Last_name, R.First_name";
+		return query;
+	}
+	
+	public String getCheckoutMaterialsByUser(){
+		final String query = "SELECT Employee_id, L.name, C.Model_number, Amount, Checkout_date "
+							+ "FROM LAB_MATERIALS L LEFT OUTER JOIN CHECKS_OUT C on L.Model_number = C.Model_number "
+							+ "WHERE C.EMPLOYEE_ID IN (SELECT R.EMPLOYEE_ID "
+							+ "FROM RESEARCHERS R "
+							+ "WHERE R.FIRST_NAME = '?' AND R.Last_name = '?')";
+		return query;
+	}
+	
+	public String getExtraCheckoutMaterials(){
+		final String query = "(SELECT L.Model_number "
+				+ "FROM CHECKS_OUT C LEFT OUTER JOIN LAB_MATERIALS L ON C.Model_number = L.Model_number) "
+				+ "INTERSECT "
+				+ "(SELECT C.Model_number "
+				+ "FROM CHECKS_OUT C LEFT OUTER JOIN RESEARCHERS R ON C.Employee_id = R.Employee_id)";
+		return query;
+	}
+	
+	public String getLastCheckouts(){
+		final String query = "SELECT R.FIRST_NAME, R.LAST_NAME, C.MODEL_NUMBER, C.CHECKOUT_DATE "
+				+ "FROM CHECKS_OUT C LEFT OUTER JOIN RESEARCHERS R ON R.EMPLOYEE_ID = C.EMPLOYEE_ID "
+				+ "WHERE ROWNUM < 5 "
+				+ "ORDER BY C.CHECKOUT_DATE ASC";
+		return query;
+	}
+	
 	/* NOT SURE IF WE WILL NEED THIS QUERY
 	public String findMaterial(){
 		final String query = "SELECT "

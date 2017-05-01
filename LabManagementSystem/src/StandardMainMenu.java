@@ -54,6 +54,7 @@ public class StandardMainMenu extends JPanel {
 				try {
 					DatabaseHandler.getDatabaseHandler().executeStatement(stand.getProjects(), new ArrayList());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					System.out.println("HELLO");
 					while(rs.next()){
 						//Write to text area that I think Nathan deleted
 					}
