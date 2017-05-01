@@ -34,14 +34,13 @@ public class SupervisorMainMenu extends JPanel {
 		add(createProject);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(358, 301, 97, 21);
+		menuBar.setBounds(10, 10, 97, 21);
 		add(menuBar);
 		
 		JMenu menu = new JMenu("New menu");
 		menuBar.add(menu);
 		menu.setForeground(Color.BLACK);
 		menu.setBackground(Color.GRAY);
-		menu.setSelectedIcon(new ImageIcon(SupervisorMainMenu.class.getResource("/com/sun/javafx/scene/control/skin/caspian/images/vk-dark-pressed.png")));
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Open Main Menu");
 		menu.add(mntmNewMenuItem);
