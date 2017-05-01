@@ -13,7 +13,7 @@ public class Driver {
 		User testUser = null;
 		
 		String[] sampleUsernames = {"Standard", "Supervisor", "Admin"};
-		String[] samplePass = {"Jeff", "megasuperbanana", "123456"};
+		String[] samplePass = {"Jeff", "super", "123456"};
 	    Graphics g = new Graphics();
 	
 	    g.createLoginView();

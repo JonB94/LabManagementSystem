@@ -23,10 +23,20 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.Button;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.UIManager;
+import javax.swing.JLabel;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 
 public class SupervisorMainMenu extends JPanel {
 	
 	private SpringLayout currentLayout;
+	
 	
 	
 	/**
@@ -35,51 +45,73 @@ public class SupervisorMainMenu extends JPanel {
 	public SupervisorMainMenu() {
 		setPreferredSize(new Dimension(900,600));
 		currentLayout = new SpringLayout();
-		setBackground(new Color(255,255,255));
+		setBackground(UIManager.getColor("Button.background"));
 		this.setLayout(currentLayout);
 		
 		JButton addMaterials = new JButton("Add Materials");
-		currentLayout.putConstraint(SpringLayout.NORTH, addMaterials, 144, SpringLayout.NORTH, this);
-		currentLayout.putConstraint(SpringLayout.WEST, addMaterials, 174, SpringLayout.WEST, this);
+		currentLayout.putConstraint(SpringLayout.NORTH, addMaterials, 138, SpringLayout.NORTH, this);
+		currentLayout.putConstraint(SpringLayout.EAST, addMaterials, -147, SpringLayout.EAST, this);
 		addMaterials.setBounds(136, 154, 113, 23);
 		add(addMaterials);
 		
 		JButton createProject = new JButton("Create Project");
-		currentLayout.putConstraint(SpringLayout.NORTH, createProject, 28, SpringLayout.SOUTH, addMaterials);
+		currentLayout.putConstraint(SpringLayout.NORTH, createProject, 24, SpringLayout.SOUTH, addMaterials);
 		currentLayout.putConstraint(SpringLayout.EAST, createProject, 0, SpringLayout.EAST, addMaterials);
 		createProject.setBounds(136, 188, 113, 23);
 		add(createProject);
 		
-		JMenuBar menuBar = new JMenuBar();
-		currentLayout.putConstraint(SpringLayout.WEST, menuBar, 126, SpringLayout.WEST, this);
-		currentLayout.putConstraint(SpringLayout.SOUTH, menuBar, -61, SpringLayout.NORTH, addMaterials);
-		menuBar.setBounds(10, 10, 97, 21);
-		add(menuBar);
+		JButton btnViewEmployees = new JButton("View Employees");
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnViewEmployees, -249, SpringLayout.SOUTH, this);
+		currentLayout.putConstraint(SpringLayout.EAST, btnViewEmployees, 0, SpringLayout.EAST, addMaterials);
+		add(btnViewEmployees);
 		
-		Button projects = new Button("Projects");
-		currentLayout.putConstraint(SpringLayout.NORTH, projects, 45, SpringLayout.NORTH, this);
-		currentLayout.putConstraint(SpringLayout.WEST, projects, 102, SpringLayout.EAST, menuBar);
-		projects.setBounds(537, 154, 102, 22);
-		add(projects);
+		JButton btnViewProjects = new JButton("View Projects");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnViewProjects, 20, SpringLayout.SOUTH, btnViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, btnViewProjects, 0, SpringLayout.EAST, addMaterials);
+		add(btnViewProjects);
 		
-		JMenu menu = new JMenu("New menu");
-		currentLayout.putConstraint(SpringLayout.WEST, menu, 196, SpringLayout.EAST, addMaterials);
-		currentLayout.putConstraint(SpringLayout.SOUTH, menu, 0, SpringLayout.SOUTH, addMaterials);
-		add(menu);
-		menu.setForeground(Color.BLACK);
-		menu.setBackground(Color.GRAY);
+		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Supervisor");
+		lblNewJgoodiesLabel.setForeground(Color.ORANGE);
+		lblNewJgoodiesLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
+		currentLayout.putConstraint(SpringLayout.NORTH, lblNewJgoodiesLabel, 10, SpringLayout.NORTH, this);
+		currentLayout.putConstraint(SpringLayout.WEST, lblNewJgoodiesLabel, 350, SpringLayout.WEST, this);
+		add(lblNewJgoodiesLabel);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Open Main Menu");
-		menu.add(mntmNewMenuItem);
+		JScrollPane scrollPane = new JScrollPane();
+		currentLayout.putConstraint(SpringLayout.NORTH, scrollPane, 9, SpringLayout.SOUTH, lblNewJgoodiesLabel);
+		currentLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, this);
+		currentLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 536, SpringLayout.SOUTH, lblNewJgoodiesLabel);
+		currentLayout.putConstraint(SpringLayout.EAST, scrollPane, 449, SpringLayout.WEST, this);
+		add(scrollPane);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("New menu item");
-		menu.add(mntmNewMenuItem_2);
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(UIManager.getColor("Button.background"));
+		textArea.setEditable(false);
+		scrollPane.setViewportView(textArea);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-		menu.add(mntmNewMenuItem_1);
 		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
-		menu.add(mntmNewMenuItem_3);
+		createProject.addActionListener(new ActionListener(){
+			MainFrame menus = new MainFrame();
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				menus.loadNewFrame(new CreateProject());
+				
+			}
+			
+			
+		});
+		addMaterials.addActionListener(new ActionListener(){
+			MainFrame menus = new MainFrame();
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				menus.loadNewFrame(new AddMaterials());
+				
+			}
+			
+			
+		});
 
 	}
 	
@@ -99,5 +131,13 @@ public class SupervisorMainMenu extends JPanel {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
 	}
 }
