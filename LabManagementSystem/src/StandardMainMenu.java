@@ -50,6 +50,7 @@ public class StandardMainMenu extends JPanel {
 	private JButton btnReturnMaterial;
 	private JButton btnExtraCheckoutMaterials;
 	private JButton btnGetPhoto;
+	private JButton btnGetUsersMaterials;
 	
 	public StandardMainMenu(){
 		
@@ -90,9 +91,9 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, btnMyProjects, 0, SpringLayout.EAST, btnNewButton);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{107, 119, 71, 89, 97, 153, 95, 0};
-		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		btnNewButton = new JButton("Employee List");
@@ -146,7 +147,7 @@ public class StandardMainMenu extends JPanel {
 					
 					ArrayList<String> test = outputs;
 					
-					ArrayList<Integer> types = new ArrayList<Integer>();
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
 					
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
@@ -384,10 +385,42 @@ public class StandardMainMenu extends JPanel {
 				
 			}
 		});
+		
+		btnGetUsersMaterials = new JButton("Get User's Materials");
+		btnGetUsersMaterials.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last name"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+			}
+		});
+		GridBagConstraints gbc_btnGetUsersMaterials = new GridBagConstraints();
+		gbc_btnGetUsersMaterials.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGetUsersMaterials.gridx = 3;
+		gbc_btnGetUsersMaterials.gridy = 8;
+		panel.add(btnGetUsersMaterials, gbc_btnGetUsersMaterials);
 		GridBagConstraints gbc_btnGetPhoto = new GridBagConstraints();
 		gbc_btnGetPhoto.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetPhoto.gridx = 3;
-		gbc_btnGetPhoto.gridy = 8;
+		gbc_btnGetPhoto.gridy = 9;
 		panel.add(btnGetPhoto, gbc_btnGetPhoto);
 		
 		JButton btnUpdateEmployeePhoto = new JButton("Update Employee Photo");
@@ -410,8 +443,8 @@ public class StandardMainMenu extends JPanel {
 					
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.updatePicture(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.updatePicture(), test, 
+							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
@@ -422,7 +455,7 @@ public class StandardMainMenu extends JPanel {
 		GridBagConstraints gbc_btnUpdateEmployeePhoto = new GridBagConstraints();
 		gbc_btnUpdateEmployeePhoto.insets = new Insets(0, 0, 5, 5);
 		gbc_btnUpdateEmployeePhoto.gridx = 3;
-		gbc_btnUpdateEmployeePhoto.gridy = 9;
+		gbc_btnUpdateEmployeePhoto.gridy = 10;
 		panel.add(btnUpdateEmployeePhoto, gbc_btnUpdateEmployeePhoto);
 		
 		

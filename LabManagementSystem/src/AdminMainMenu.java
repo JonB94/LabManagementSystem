@@ -15,9 +15,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class AdminMainMenu extends JPanel {
@@ -48,7 +55,7 @@ public class AdminMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, scrollPane, 436, SpringLayout.WEST, this);
 		add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		final JTextArea textArea = new JTextArea();
 		textArea.setBackground(UIManager.getColor("Button.background"));
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
@@ -61,34 +68,63 @@ public class AdminMainMenu extends JPanel {
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{109, 97, 103, 153, 107, 119, 71, 89, 135, 181, 0};
-		gbl_panel.rowHeights = new int[] {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0};
 		panel.setLayout(gbl_panel);
 		
 		
 		JButton button_ViewEmployees = new JButton("View Employees");
+		button_ViewEmployees.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First Name", "Last name", "Salary"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getEmployees(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_button_ViewEmployees = new GridBagConstraints();
 		gbc_button_ViewEmployees.insets = new Insets(0, 0, 5, 5);
 		gbc_button_ViewEmployees.gridx = 4;
-		gbc_button_ViewEmployees.gridy = 2;
+		gbc_button_ViewEmployees.gridy = 3;
 		panel.add(button_ViewEmployees, gbc_button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_AddMaterials);
-		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 23, SpringLayout.SOUTH, button_CreateProject);
-		currentLayout.putConstraint(SpringLayout.EAST, button, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_1, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.NORTH, button_2, 31, SpringLayout.SOUTH, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_2, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_3, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_4, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, btnGetMaterialsBy, 0, SpringLayout.EAST, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, btnGetLastChecked, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 23, SpringLayout.SOUTH, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 31, SpringLayout.SOUTH, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_ViewEmployees);
 		
 		JButton button_AddMaterials = new JButton("Add Materials");
+		
 		GridBagConstraints gbc_button_AddMaterials = new GridBagConstraints();
 		gbc_button_AddMaterials.insets = new Insets(0, 0, 5, 5);
 		gbc_button_AddMaterials.gridx = 4;
-		gbc_button_AddMaterials.gridy = 3;
+		gbc_button_AddMaterials.gridy = 4;
 		panel.add(button_AddMaterials, gbc_button_AddMaterials);
 		currentLayout.putConstraint(SpringLayout.EAST, button_AddMaterials, -191, SpringLayout.EAST, this);
 		button_AddMaterials.addActionListener(new ActionListener(){
@@ -101,97 +137,458 @@ public class AdminMainMenu extends JPanel {
 			
 			
 		});
-		currentLayout.putConstraint(SpringLayout.SOUTH, button_AddMaterials, -20, SpringLayout.NORTH, button_CreateProject);
+		currentLayout.putConstraint(SpringLayout.SOUTH, button_AddMaterials, -20, SpringLayout.NORTH, button_ViewEmployees);
 		
 		JButton button_CreateProject = new JButton("Create Project");
+		button_CreateProject.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Project name", "Project number", "Start date", "Supervisor ID"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					types.add(Types.DATE);
+					types.add(Types.NUMERIC);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.createNewProject(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_button_CreateProject = new GridBagConstraints();
 		gbc_button_CreateProject.insets = new Insets(0, 0, 5, 5);
 		gbc_button_CreateProject.gridx = 4;
-		gbc_button_CreateProject.gridy = 4;
+		gbc_button_CreateProject.gridy = 5;
 		panel.add(button_CreateProject, gbc_button_CreateProject);
 		currentLayout.putConstraint(SpringLayout.EAST, button_CreateProject, -191, SpringLayout.EAST, this);
 		currentLayout.putConstraint(SpringLayout.NORTH, button_CreateProject, 153, SpringLayout.NORTH, this);
 		
-		button_CreateProject.addActionListener(new ActionListener(){
-			
-			@Override
+		
+		JButton button_extraCheckout = new JButton("Extra Checkout Materials");
+		button_extraCheckout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				Driver.getMainFrame().loadNewFrame(new CreateProject());
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First Name", "Last name", "Salary"}, 
+							"Create");
+					
+					ArrayList<String> test = outputs;
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getExtraCheckoutMaterials(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
 				
 			}
-			
-			
 		});
+		GridBagConstraints gbc_button_extraCheckout = new GridBagConstraints();
+		gbc_button_extraCheckout.insets = new Insets(0, 0, 5, 5);
+		gbc_button_extraCheckout.gridx = 4;
+		gbc_button_extraCheckout.gridy = 6;
+		panel.add(button_extraCheckout, gbc_button_extraCheckout);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_extraCheckout, 381, SpringLayout.NORTH, this);
+		currentLayout.putConstraint(SpringLayout.SOUTH, button_ViewEmployees, -16, SpringLayout.NORTH, button_extraCheckout);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 17, SpringLayout.SOUTH, button_extraCheckout);
 		
-		JButton button = new JButton("Extra Checkout Materials");
-		GridBagConstraints gbc_button = new GridBagConstraints();
-		gbc_button.insets = new Insets(0, 0, 5, 5);
-		gbc_button.gridx = 4;
-		gbc_button.gridy = 5;
-		panel.add(button, gbc_button);
-		currentLayout.putConstraint(SpringLayout.NORTH, button, 381, SpringLayout.NORTH, this);
-		currentLayout.putConstraint(SpringLayout.SOUTH, button_1, -16, SpringLayout.NORTH, button);
-		currentLayout.putConstraint(SpringLayout.NORTH, button_3, 17, SpringLayout.SOUTH, button);
+		JButton button_Return = new JButton("Return Material");
+		button_Return.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Amount returned", "Employee ID"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.returnMaterial(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_button_Return = new GridBagConstraints();
+		gbc_button_Return.insets = new Insets(0, 0, 5, 5);
+		gbc_button_Return.gridx = 4;
+		gbc_button_Return.gridy = 7;
+		panel.add(button_Return, gbc_button_Return);
 		
-		JButton button_1 = new JButton("Return Material");
-		GridBagConstraints gbc_button_1 = new GridBagConstraints();
-		gbc_button_1.insets = new Insets(0, 0, 5, 5);
-		gbc_button_1.gridx = 4;
-		gbc_button_1.gridy = 6;
-		panel.add(button_1, gbc_button_1);
+		JButton button_checkout = new JButton("Checkout Material");
+		button_checkout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Employee ID", "Amount", "Model Number", "Return Deadline"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					types.add(Types.DATE);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.checkoutMaterial(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_button_checkout = new GridBagConstraints();
+		gbc_button_checkout.insets = new Insets(0, 0, 5, 5);
+		gbc_button_checkout.gridx = 4;
+		gbc_button_checkout.gridy = 8;
+		panel.add(button_checkout, gbc_button_checkout);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 26, SpringLayout.SOUTH, button_checkout);
 		
-		JButton button_2 = new JButton("Checkout Material");
-		GridBagConstraints gbc_button_2 = new GridBagConstraints();
-		gbc_button_2.insets = new Insets(0, 0, 5, 5);
-		gbc_button_2.gridx = 4;
-		gbc_button_2.gridy = 7;
-		panel.add(button_2, gbc_button_2);
-		currentLayout.putConstraint(SpringLayout.NORTH, button_4, 26, SpringLayout.SOUTH, button_2);
+		JButton button_projects = new JButton("Projects");
+		button_projects.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				try {
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjects(), new ArrayList<String>(), new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
+					while(rs.next()){
+						for(int i = 0; i < meta.getColumnCount(); i++){
+							System.out.println("Column Count: " + meta.getColumnCount());
+							textArea.setText("");
+							if(meta.getColumnType(i) == Types.NUMERIC){
+								textArea.setText(rs.getInt(i) + "\t");
+							}else{
+								textArea.setText(rs.getString(i) + "\t");
+							}
+						}
+						System.out.println();
+					}
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not properly fetch the projects");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_button_projects = new GridBagConstraints();
+		gbc_button_projects.insets = new Insets(0, 0, 5, 5);
+		gbc_button_projects.gridx = 4;
+		gbc_button_projects.gridy = 9;
+		panel.add(button_projects, gbc_button_projects);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 21, SpringLayout.SOUTH, button_projects);
 		
-		JButton button_3 = new JButton("Projects");
-		GridBagConstraints gbc_button_3 = new GridBagConstraints();
-		gbc_button_3.insets = new Insets(0, 0, 5, 5);
-		gbc_button_3.gridx = 4;
-		gbc_button_3.gridy = 8;
-		panel.add(button_3, gbc_button_3);
-		currentLayout.putConstraint(SpringLayout.NORTH, btnGetMaterialsBy, 21, SpringLayout.SOUTH, button_3);
-		
-		JButton button_4 = new JButton("My Projects");
-		GridBagConstraints gbc_button_4 = new GridBagConstraints();
-		gbc_button_4.insets = new Insets(0, 0, 5, 5);
-		gbc_button_4.gridx = 4;
-		gbc_button_4.gridy = 9;
-		panel.add(button_4, gbc_button_4);
+		JButton button_myProjects = new JButton("My Projects");
+		button_myProjects.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First Name", "Last name", "Salary"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjectsForUser(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_button_myProjects = new GridBagConstraints();
+		gbc_button_myProjects.insets = new Insets(0, 0, 5, 5);
+		gbc_button_myProjects.gridx = 4;
+		gbc_button_myProjects.gridy = 10;
+		panel.add(button_myProjects, gbc_button_myProjects);
 		
 		JButton btnGetMaterialsBy = new JButton("Get Materials by User");
+		btnGetMaterialsBy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last name"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+			}
+		});
 		GridBagConstraints gbc_btnGetMaterialsBy = new GridBagConstraints();
 		gbc_btnGetMaterialsBy.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetMaterialsBy.gridx = 4;
-		gbc_btnGetMaterialsBy.gridy = 10;
+		gbc_btnGetMaterialsBy.gridy = 12;
 		panel.add(btnGetMaterialsBy, gbc_btnGetMaterialsBy);
-		currentLayout.putConstraint(SpringLayout.NORTH, btnGetLastChecked, 11, SpringLayout.SOUTH, btnGetMaterialsBy);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 11, SpringLayout.SOUTH, btnGetMaterialsBy);
 		
 		JButton btnGetLastChecked = new JButton("Get Last Checked out Materials");
+		btnGetLastChecked.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last name"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					*/
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+			}
+		});
 		GridBagConstraints gbc_btnGetLastChecked = new GridBagConstraints();
 		gbc_btnGetLastChecked.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetLastChecked.gridx = 4;
-		gbc_btnGetLastChecked.gridy = 12;
+		gbc_btnGetLastChecked.gridy = 13;
 		panel.add(btnGetLastChecked, gbc_btnGetLastChecked);
 		
 		JButton btnGetPhoto = new JButton("Get Employee Photo");
+		btnGetPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last name"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getPhoto(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_btnGetPhoto = new GridBagConstraints();
 		gbc_btnGetPhoto.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetPhoto.gridx = 4;
-		gbc_btnGetPhoto.gridy = 13;
+		gbc_btnGetPhoto.gridy = 14;
 		panel.add(btnGetPhoto, gbc_btnGetPhoto);
 		
 		JButton button_UpdateEmployeePhoto = new JButton("Update Employee Photo");
+		button_UpdateEmployeePhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Photo", "Employee ID"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.BLOB);
+					types.add(Types.NUMERIC);
+					
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.updatePicture(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
 		GridBagConstraints gbc_button_UpdateEmployeePhoto = new GridBagConstraints();
 		gbc_button_UpdateEmployeePhoto.insets = new Insets(0, 0, 5, 5);
 		gbc_button_UpdateEmployeePhoto.gridx = 4;
-		gbc_button_UpdateEmployeePhoto.gridy = 14;
+		gbc_button_UpdateEmployeePhoto.gridy = 15;
 		panel.add(button_UpdateEmployeePhoto, gbc_button_UpdateEmployeePhoto);
+		
+		JButton btnRemoveResearcher = new JButton("Remove Researcher");
+		btnRemoveResearcher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Employee ID"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.NUMERIC);
+					
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.removeResearcher(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnRemoveResearcher = new GridBagConstraints();
+		gbc_btnRemoveResearcher.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRemoveResearcher.gridx = 4;
+		gbc_btnRemoveResearcher.gridy = 16;
+		panel.add(btnRemoveResearcher, gbc_btnRemoveResearcher);
+		
+		JButton btnGetMaterialsOf = new JButton("Get Materials of All Users");
+		btnGetMaterialsOf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last name"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutOfAllUsers(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnGetMaterialsOf = new GridBagConstraints();
+		gbc_btnGetMaterialsOf.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGetMaterialsOf.gridx = 4;
+		gbc_btnGetMaterialsOf.gridy = 17;
+		panel.add(btnGetMaterialsOf, gbc_btnGetMaterialsOf);
+		
+		JButton btnRefillMaterials = new JButton("Refill Materials");
+		btnRefillMaterials.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Manufacturer"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.refillMaterials(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnRefillMaterials = new GridBagConstraints();
+		gbc_btnRefillMaterials.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRefillMaterials.gridx = 4;
+		gbc_btnRefillMaterials.gridy = 18;
+		panel.add(btnRefillMaterials, gbc_btnRefillMaterials);
 		
 		
 
