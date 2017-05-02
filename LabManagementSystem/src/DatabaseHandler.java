@@ -1,3 +1,12 @@
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,6 +18,8 @@ import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import oracle.jdbc.OracleDriver;
 
@@ -48,12 +59,15 @@ public class DatabaseHandler {
 					ps.setString(i+1, optionals.get(i));
 				else if(types.get(i) == Types.DATE)
 					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
-				else if(types.get(i) == Types.CLOB)
+				else if(types.get(i) == Types.CLOB){
 					System.out.println();
-					//ps.setClob(i+1, optionals.get(i)); Figure out how to handle this
-				else if(types.get(i) == Types.BLOB)
-					System.out.println();
-					//ps.setBlob(i+1, optionals.get(i)); //Figure out how to handle this
+					//Figure out how to handle this
+				}else if(types.get(i) == Types.BLOB){
+					File image = new File(optionals.get(i));
+				    FileInputStream   fis = new FileInputStream(image);
+					ps.setBinaryStream(i+1, fis, (int) image.length());
+					
+				}
 			}
 			
 			rs = ps.executeQuery();
@@ -61,6 +75,8 @@ public class DatabaseHandler {
 			Graphics.createErrorMessage("Could not prepare the executable statement properly.");
 		} catch (ParseException e) {
 			Graphics.createErrorMessage("Could not parse the date format");
+		} catch (FileNotFoundException e) {
+			Graphics.createErrorMessage("Could not find the image specified");
 		}
 		
 	}
@@ -78,12 +94,14 @@ public class DatabaseHandler {
 					ps.setString(i+1, optionals.get(i));
 				else if(types.get(i) == Types.DATE)
 					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
-				else if(types.get(i) == Types.CLOB)
-					System.out.println();
-					//ps.setClob(i+1, optionals.get(i)); Figure out how to handle this
-				else if(types.get(i) == Types.BLOB)
-					System.out.println();
-					//ps.setBlob(i+1, optionals.get(i)); //Figure out how to handle this
+				else if(types.get(i) == Types.CLOB){
+					File inputTextFile = new File(optionals.get(i));
+		            FileInputStream inputFileInputStream = new FileInputStream(inputTextFile);
+				}else if(types.get(i) == Types.BLOB){
+					File image = new File(optionals.get(i));
+					FileInputStream fis = new FileInputStream(image);
+					ps.setBinaryStream(i+1, fis, (int) image.length());
+				}
 			}
 			
 			int count = ps.executeUpdate();
@@ -93,6 +111,8 @@ public class DatabaseHandler {
 			Graphics.createErrorMessage("Could not prepare the executable statement properly.");
 		} catch (ParseException e) {
 			Graphics.createErrorMessage("Could not parse the date format");
+		} catch (FileNotFoundException e) {
+			Graphics.createErrorMessage("Could not find the image specified");
 		}
 		return 0;
 		
@@ -111,6 +131,18 @@ public class DatabaseHandler {
 	
 	public ResultSet getResultSet(){
 		return rs;
+	}
+	
+	public BufferedImage handleBLOB(Blob blob){
+		try {
+			InputStream in = blob.getBinaryStream();
+			return ImageIO.read(in);
+		} catch (IOException e) {
+			Graphics.createErrorMessage("Could not convert blob to image");
+		} catch (SQLException e) {
+			Graphics.createErrorMessage("Could not read in the blob");
+		}
+		return null;
 	}
 	
 	public static DatabaseHandler getDatabaseHandler() throws SQLException {
