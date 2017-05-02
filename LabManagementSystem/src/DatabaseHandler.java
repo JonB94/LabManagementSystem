@@ -61,8 +61,11 @@ public class DatabaseHandler {
 					ps.setInt(i+1, Integer.parseInt(optionals.get(i)));
 				else if(types.get(i) == Types.VARCHAR)
 					ps.setString(i+1, optionals.get(i));
-				else if(types.get(i) == Types.DATE)
-					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
+				else if(types.get(i) == Types.DATE){
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					Date d = (Date) sdf.parse(optionals.get(i));
+					ps.setDate(i+1, new java.sql.Date(d.getTime()));
+				}
 				else if(types.get(i) == Types.CLOB){
 					ps.setString(i+1, optionals.get(i));
 				}else if(types.get(i) == Types.BLOB){
@@ -95,9 +98,11 @@ public class DatabaseHandler {
 					ps.setInt(i+1, Integer.parseInt(optionals.get(i)));
 				else if(types.get(i) == Types.VARCHAR)
 					ps.setString(i+1, optionals.get(i));
-				else if(types.get(i) == Types.DATE)
-					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
-				else if(types.get(i) == Types.CLOB){
+				else if(types.get(i) == Types.DATE){
+					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					Date d = (Date) sdf.parse(optionals.get(i));
+					ps.setDate(i+1, new java.sql.Date(d.getTime()));
+				}else if(types.get(i) == Types.CLOB){
 					//File inputTextFile = new File(optionals.get(i));
 		            //FileInputStream inputFileInputStream = new FileInputStream(inputTextFile);
 					ps.setString(i+1, optionals.get(i));
