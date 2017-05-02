@@ -66,15 +66,29 @@ public class User {
 	}
 	
 	public String checkoutMaterial(){
-		final String query = "INSERT INTO Checks_out "
-							+ "VALUES (?,?,'?', SYSDATE ,?)";
+		final String query = "INSERT INTO Checks_out (Employee_id, Amount, Model_number, Checkout_date, Return_deadline) "
+							+ "VALUES (?,?,?, SYSDATE , SYSDATE + 5)";
 		return query;
 	}
 	
 	public String returnMaterial(){
 		final String query = "UPDATE Checks_out "
 							+ "SET Amount_returned = ? "
-							+ "WHERE Employee_id = ?";
+							+ "WHERE Model_number = ?";
+		return query;
+	}
+	
+	public String removeMaterial(){
+		final String query = "UPDATE Lab_materials "
+							+ "SET Quantity = Quantity - ? "
+							+ "WHERE Model_number = ?";
+		return query;
+	}
+	
+	public String updateLabMaterialAmount(){
+		final String query = "UPDATE Lab_materials "
+							+ "SET Quantity = Quantity + ? "
+							+ "WHERE Model_number = ?";
 		return query;
 	}
 	
