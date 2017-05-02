@@ -48,6 +48,17 @@ public class SupervisorMainMenu extends JPanel {
 		setBackground(UIManager.getColor("Button.background"));
 		this.setLayout(currentLayout);
 		
+		JButton createProject = new JButton("Create Project");
+		JButton button = new JButton("Lab Materials");
+		JButton btnViewEmployees = new JButton("Employee List");
+		JButton btnResearchersUnderMe = new JButton("Researchers Under Me");
+		JButton button_1 = new JButton("Checkout Material");
+		JButton addMaterials = new JButton("Add Materials");
+		JButton button_3 = new JButton("Extra Checkout Materials");
+		JButton btnNewButton = new JButton("My Projects");
+		JButton button_2 = new JButton("Return Material");
+		JButton btnViewProjects = new JButton("View Projects");
+		
 		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Supervisor");
 		lblNewJgoodiesLabel.setForeground(Color.ORANGE);
 		lblNewJgoodiesLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
@@ -83,7 +94,7 @@ public class SupervisorMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, createProject, 24, SpringLayout.SOUTH, addMaterials);
 		currentLayout.putConstraint(SpringLayout.EAST, createProject, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton createProject = new JButton("Create Project");
+		
 		GridBagConstraints gbc_createProject = new GridBagConstraints();
 		gbc_createProject.insets = new Insets(0, 0, 5, 0);
 		gbc_createProject.gridx = 2;
@@ -104,7 +115,6 @@ public class SupervisorMainMenu extends JPanel {
 		});
 		currentLayout.putConstraint(SpringLayout.EAST, button, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton button = new JButton("Lab Materials");
 		GridBagConstraints gbc_button = new GridBagConstraints();
 		gbc_button.insets = new Insets(0, 0, 5, 0);
 		gbc_button.gridx = 2;
@@ -113,7 +123,7 @@ public class SupervisorMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.SOUTH, button, -23, SpringLayout.NORTH, btnViewEmployees);
 		currentLayout.putConstraint(SpringLayout.EAST, btnViewEmployees, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton btnViewEmployees = new JButton("Employee List");
+	
 		btnViewEmployees.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -126,7 +136,7 @@ public class SupervisorMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.SOUTH, btnViewEmployees, -249, SpringLayout.SOUTH, this);
 		currentLayout.putConstraint(SpringLayout.EAST, btnResearchersUnderMe, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton btnResearchersUnderMe = new JButton("Researchers Under Me");
+	
 		GridBagConstraints gbc_btnResearchersUnderMe = new GridBagConstraints();
 		gbc_btnResearchersUnderMe.insets = new Insets(0, 0, 5, 0);
 		gbc_btnResearchersUnderMe.gridx = 2;
@@ -134,14 +144,14 @@ public class SupervisorMainMenu extends JPanel {
 		panel.add(btnResearchersUnderMe, gbc_btnResearchersUnderMe);
 		currentLayout.putConstraint(SpringLayout.EAST, button_1, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton button_1 = new JButton("Checkout Material");
+	
 		GridBagConstraints gbc_button_1 = new GridBagConstraints();
 		gbc_button_1.insets = new Insets(0, 0, 5, 0);
 		gbc_button_1.gridx = 2;
 		gbc_button_1.gridy = 5;
 		panel.add(button_1, gbc_button_1);
 		
-		JButton addMaterials = new JButton("Add Materials");
+		
 		GridBagConstraints gbc_addMaterials = new GridBagConstraints();
 		gbc_addMaterials.insets = new Insets(0, 0, 5, 0);
 		gbc_addMaterials.gridx = 2;
@@ -151,7 +161,7 @@ public class SupervisorMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, addMaterials, -147, SpringLayout.EAST, this);
 		currentLayout.putConstraint(SpringLayout.EAST, button_3, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton button_3 = new JButton("Extra Checkout Materials");
+		
 		GridBagConstraints gbc_button_3 = new GridBagConstraints();
 		gbc_button_3.insets = new Insets(0, 0, 5, 0);
 		gbc_button_3.gridx = 2;
@@ -159,7 +169,7 @@ public class SupervisorMainMenu extends JPanel {
 		panel.add(button_3, gbc_button_3);
 		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton btnNewButton = new JButton("My Projects");
+		
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewButton.gridx = 2;
@@ -167,7 +177,7 @@ public class SupervisorMainMenu extends JPanel {
 		panel.add(btnNewButton, gbc_btnNewButton);
 		currentLayout.putConstraint(SpringLayout.NORTH, button_1, 16, SpringLayout.SOUTH, btnNewButton);
 		
-		JButton button_2 = new JButton("Return Material");
+		
 		GridBagConstraints gbc_button_2 = new GridBagConstraints();
 		gbc_button_2.insets = new Insets(0, 0, 5, 0);
 		gbc_button_2.gridx = 2;
@@ -178,7 +188,7 @@ public class SupervisorMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, button_3, 16, SpringLayout.SOUTH, button_2);
 		currentLayout.putConstraint(SpringLayout.EAST, btnViewProjects, 0, SpringLayout.EAST, addMaterials);
 		
-		JButton btnViewProjects = new JButton("View Projects");
+		
 		GridBagConstraints gbc_btnViewProjects = new GridBagConstraints();
 		gbc_btnViewProjects.gridx = 2;
 		gbc_btnViewProjects.gridy = 10;
