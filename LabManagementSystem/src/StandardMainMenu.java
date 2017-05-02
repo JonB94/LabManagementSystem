@@ -62,6 +62,7 @@ public class StandardMainMenu extends JPanel {
 	private JButton btnGetUsersMaterials;
 	private JButton btnGetProgressReport;
 	private JButton btnUpdateProgressReport;
+	private JButton btnGetSupervisor;
 	
 	public StandardMainMenu(){
 		
@@ -111,9 +112,9 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, btnMyProjects, 0, SpringLayout.EAST, btnNewButton);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{107, 119, 71, 89, 97, 153, 95, 0};
-		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		
@@ -538,6 +539,13 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnUpdateProgressReport.gridx = 3;
 		gbc_btnUpdateProgressReport.gridy = 12;
 		panel.add(btnUpdateProgressReport, gbc_btnUpdateProgressReport);
+		
+		btnGetSupervisor = new JButton("Get Supervisor");
+		GridBagConstraints gbc_btnGetSupervisor = new GridBagConstraints();
+		gbc_btnGetSupervisor.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGetSupervisor.gridx = 3;
+		gbc_btnGetSupervisor.gridy = 13;
+		panel.add(btnGetSupervisor, gbc_btnGetSupervisor);
 		
 		
 	}
