@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -89,6 +90,53 @@ public class Graphics {
 				JOptionPane.OK_OPTION);
 	}
 	
+	public static Object[] createGeneralComboAndInputBoxes(String[] boxNames, String[][] comboBoxes, String[] textBoxes, String name){
+		Object[] outputs = new Object[comboBoxes.length + textBoxes.length];
+		
+		{
+		    JComboBox<String>[] boxes = new JComboBox[comboBoxes.length];
+		    
+		    for(int i = 0; i < boxes.length;i++){
+		    	boxes[i] = new JComboBox<String>(comboBoxes[i]);
+		    }
+		    
+		    //Creating labels
+		    Object[] labels = new Object[boxes.length*2 + textBoxes.length*2];
+		    int i = 0;
+		    for(;i < boxes.length; i = i+2){
+		    	labels[i] = new JLabel(boxNames[i-(i/2)]);
+		    	labels[i+1] = boxes[i];
+		    }
+		    
+		    JTextField[] fields = new JTextField[textBoxes.length];
+		    for(int j = 0;j < fields.length;j++){
+		    	fields[i] = new JTextField();
+		    }
+		    int placeholder = i;
+		    for(; i < labels.length; i = i+2){
+		    	labels[i] = new JLabel(textBoxes[(i%placeholder)-((i%placeholder)/2)]);
+		    	labels[i+1] = fields[i];
+		    }
+		    
+	        int result = JOptionPane.showConfirmDialog(
+	        	null, 
+	        	labels, 
+	        	name, 
+	        	JOptionPane.OK_CANCEL_OPTION
+	        );
+	        
+	        if (result == JOptionPane.OK_OPTION)
+	        	for(int j = 0; j< labels.length;j+=2){
+	        		if(j < boxes.length)
+	        			outputs[j-(j/2)] = (Integer)((JComboBox)labels[j]).getSelectedIndex();
+	        		else
+	        			outputs[j-(j/2)] = ((JTextField)labels[j]).getText();
+	        	}
+	        
+	        return outputs;
+		}
+	}
+	
 	public static String[] createGeneralInputBox(String[] inputs, String name){
 		String[] outputs = new String[inputs.length];
 		
@@ -102,7 +150,7 @@ public class Graphics {
 		    //Creating labels
 		    Object[] labels = new Object[fields.length*2];
 		    for(int i = 0; i < labels.length; i = i+2){
-		    	labels[i] = new JLabel();
+		    	labels[i] = new JLabel(inputs[i-(i/2)]);
 		    	labels[i+1] = fields[i];
 		    }
 		    
@@ -112,11 +160,10 @@ public class Graphics {
 	        	name, 
 	        	JOptionPane.OK_CANCEL_OPTION
 	        );
-	
 	        
 	        if (result == JOptionPane.OK_OPTION)
-	        	for(int i = 0; i < outputs.length;i++){
-	        		outputs[i] = ((JTextField)labels[i+1]).getText();
+	        	for(int i = 0; i < outputs.length;i+=2){
+	        		outputs[i-(i/2)] = ((JTextField)labels[i]).getText();
 	        	}
 	        
 	        return outputs;
