@@ -20,7 +20,7 @@ public class AdminUser extends User {
 	
 	public String createNewProject(){
 		final String query = "INSERT INTO PROJECTS(PROJECT_NAME, PROJECT_NUMBER, PROJECT_START_DATE, SUPERVISOR_ID) "
-							+ "VALUES ('?', ?, TO_DATE('?', 'yyyy/mm/dd hh24:mi:ss'), ?)";
+							+ "VALUES (?, ?, TO_DATE(?, 'yyyy/mm/dd hh24:mi:ss'), ?)";
 		return query;
 	}
 	

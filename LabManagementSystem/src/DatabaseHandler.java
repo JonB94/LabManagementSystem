@@ -99,9 +99,7 @@ public class DatabaseHandler {
 				else if(types.get(i) == Types.VARCHAR)
 					ps.setString(i+1, optionals.get(i));
 				else if(types.get(i) == Types.DATE){
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-					Date d = (Date) sdf.parse(optionals.get(i));
-					ps.setDate(i+1, new java.sql.Date(d.getTime()));
+					ps.setString(i+1, optionals.get(i));
 				}else if(types.get(i) == Types.CLOB){
 					//File inputTextFile = new File(optionals.get(i));
 		            //FileInputStream inputFileInputStream = new FileInputStream(inputTextFile);
@@ -118,8 +116,6 @@ public class DatabaseHandler {
 		} catch (SQLException e) {
 			
 			Graphics.createErrorMessage("Could not prepare the executable statement properly.");
-		} catch (ParseException e) {
-			Graphics.createErrorMessage("Could not parse the date format");
 		} catch (FileNotFoundException e) {
 			Graphics.createErrorMessage("Could not find the image specified");
 		}

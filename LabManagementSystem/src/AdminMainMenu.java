@@ -188,7 +188,7 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.createNewProject(), test, 
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.createNewProject(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 				} catch (SQLException e) {
@@ -298,7 +298,7 @@ public class AdminMainMenu extends JPanel {
 				try {
 					
 					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"Employee ID", "Amount", "Model Number", "Return Deadline"}, 
+							new String[]{"Employee ID", "Amount", "Model Number"}, 
 							"Create");
 					
 					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
@@ -308,7 +308,6 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					types.add(Types.NUMERIC);
 					types.add(Types.NUMERIC);
-					types.add(Types.DATE);
 					
 					
 					DatabaseHandler.getDatabaseHandler().executeStatement(user.checkoutMaterial(), test, 
