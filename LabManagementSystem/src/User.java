@@ -61,7 +61,7 @@ public class User {
 				+ "project_start_date, project_deadline, p.supervisor_id "
 				+ "FROM WORKS_ON w LEFT OUTER JOIN PROJECTS p ON w.PROJECT_NUMBER = p.PROJECT_NUMBER, "
 				+ "RESEARCHERS r "
-				+ "WHERE r.First_name = '?' AND r.Last_name = '?' AND w.EMPLOYEE_ID = r.EMPLOYEE_ID"; 
+				+ "WHERE r.First_name = ? AND r.Last_name = ? AND w.EMPLOYEE_ID = r.EMPLOYEE_ID"; 
 		return query;
 	}
 	

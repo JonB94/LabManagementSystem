@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -148,10 +149,10 @@ public class Graphics {
 		    }
 		    
 		    //Creating labels
-		    Object[] labels = new Object[fields.length*2];
+		    JComponent[] labels = new JComponent[fields.length*2];
 		    for(int i = 0; i < labels.length; i = i+2){
 		    	labels[i] = new JLabel(inputs[i-(i/2)]);
-		    	labels[i+1] = fields[i];
+		    	labels[i+1] = fields[i-(i/2)];
 		    }
 		    
 	        int result = JOptionPane.showConfirmDialog(
@@ -162,8 +163,9 @@ public class Graphics {
 	        );
 	        
 	        if (result == JOptionPane.OK_OPTION)
-	        	for(int i = 0; i < outputs.length;i+=2){
-	        		outputs[i-(i/2)] = ((JTextField)labels[i]).getText();
+	        	for(int i = 0; i < labels.length;i+=2){
+	        		outputs[i-(i/2)] = ((JTextField)labels[i+1]).getText();
+	        		System.out.println("Inputs are: " + ((JTextField)labels[i+1]).getText());
 	        	}
 	        
 	        return outputs;

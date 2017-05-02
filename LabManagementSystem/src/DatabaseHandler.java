@@ -1,12 +1,15 @@
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import oracle.jdbc.OracleDriver;
+import oracle.sql.CLOB;
 
 public class DatabaseHandler {
 
@@ -60,8 +64,7 @@ public class DatabaseHandler {
 				else if(types.get(i) == Types.DATE)
 					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
 				else if(types.get(i) == Types.CLOB){
-					System.out.println();
-					//Figure out how to handle this
+					ps.setString(i+1, optionals.get(i));
 				}else if(types.get(i) == Types.BLOB){
 					File image = new File(optionals.get(i));
 				    FileInputStream   fis = new FileInputStream(image);
@@ -95,8 +98,9 @@ public class DatabaseHandler {
 				else if(types.get(i) == Types.DATE)
 					ps.setDate(i+1, (Date) new SimpleDateFormat("dd/MM/yyyy").parse(optionals.get(i)));
 				else if(types.get(i) == Types.CLOB){
-					File inputTextFile = new File(optionals.get(i));
-		            FileInputStream inputFileInputStream = new FileInputStream(inputTextFile);
+					//File inputTextFile = new File(optionals.get(i));
+		            //FileInputStream inputFileInputStream = new FileInputStream(inputTextFile);
+					ps.setString(i+1, optionals.get(i));
 				}else if(types.get(i) == Types.BLOB){
 					File image = new File(optionals.get(i));
 					FileInputStream fis = new FileInputStream(image);
@@ -133,7 +137,7 @@ public class DatabaseHandler {
 		return rs;
 	}
 	
-	public BufferedImage handleBLOB(Blob blob){
+	public static BufferedImage handleBLOB(Blob blob){
 		try {
 			InputStream in = blob.getBinaryStream();
 			return ImageIO.read(in);
@@ -141,6 +145,16 @@ public class DatabaseHandler {
 			Graphics.createErrorMessage("Could not convert blob to image");
 		} catch (SQLException e) {
 			Graphics.createErrorMessage("Could not read in the blob");
+		}
+		return null;
+	}
+	
+	public static BufferedReader handleCLOB(Clob clob){
+		try {
+			BufferedReader read = new BufferedReader(clob.getCharacterStream());
+			return read;
+		} catch (SQLException e) {
+			Graphics.createErrorMessage("Could not read in the CLOB");
 		}
 		return null;
 	}

@@ -58,6 +58,15 @@ public class StandardMainMenu extends JPanel {
 		textArea = new JTextArea();
 		textArea.setSize(new Dimension(500,600));
 		currentLayout = new SpringLayout();
+		btnNewButton = new JButton("Employee List");
+		btnMyProjects = new JButton("My Projects");
+		projectsButton = new JButton("Projects");
+		btnNewButton_2 = new JButton("Checkout Material");
+		btnReturnMaterial = new JButton("Return Material");
+		btnExtraCheckoutMaterials = new JButton("Extra Checkout Materials");
+		btnNewButton_1 = new JButton("Lab Materials");
+		btnGetPhoto = new JButton("Get Employee Photo");
+		btnGetUsersMaterials = new JButton("Get User's Materials");
 		scroll = new JScrollPane (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		currentLayout.putConstraint(SpringLayout.NORTH, scroll, -524, SpringLayout.SOUTH, this);
 		currentLayout.putConstraint(SpringLayout.WEST, scroll, 0, SpringLayout.WEST, this);
@@ -96,7 +105,7 @@ public class StandardMainMenu extends JPanel {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		btnNewButton = new JButton("Employee List");
+		
 		currentLayout.putConstraint(SpringLayout.WEST, btnNewButton, 120, SpringLayout.EAST, scroll);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -134,29 +143,36 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnNewButton.gridy = 1;
 		panel.add(btnNewButton, gbc_btnNewButton);
 		
-		btnMyProjects = new JButton("My Projects");
+		
 		btnMyProjects.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
 				
 				try {
-					/*
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First Name", "Last name", "Salary"}, 
-							"Create");
+					String[] output = Graphics.createGeneralInputBox(new String[]{"First Name", "Last Name"},
+							"Projects");
 					
-					ArrayList<String> test = outputs;
+					ArrayList<String> input = new ArrayList<String>(Arrays.asList(output));
 					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
-					
+					ArrayList<Integer> types = new ArrayList<Integer>();
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
-					types.add(Types.NUMERIC);
-					*/
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjectsForUser(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjectsForUser(),
+							input, 
+							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -172,7 +188,7 @@ public class StandardMainMenu extends JPanel {
 		panel.add(btnMyProjects, gbc_btnMyProjects);
 		
 		
-		projectsButton = new JButton("Projects");
+		
 		currentLayout.putConstraint(SpringLayout.WEST, projectsButton, 120, SpringLayout.EAST, scroll);
 		projectsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -184,12 +200,7 @@ public class StandardMainMenu extends JPanel {
 					while(rs.next()){
 						for(int i = 0; i < meta.getColumnCount(); i++){
 							System.out.println("Column Count: " + meta.getColumnCount());
-							textArea.setText("");
-							if(meta.getColumnType(i) == Types.NUMERIC){
-								textArea.setText(rs.getInt(i) + "\t");
-							}else{
-								textArea.setText(rs.getString(i) + "\t");
-							}
+							
 						}
 						System.out.println();
 					}
@@ -207,7 +218,7 @@ public class StandardMainMenu extends JPanel {
 		gbc_projectsButton.gridy = 3;
 		panel.add(projectsButton, gbc_projectsButton);
 		
-		btnNewButton_2 = new JButton("Checkout Material");
+		
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -246,7 +257,7 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 6, SpringLayout.SOUTH, projectsButton);
 		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton_2, 0, SpringLayout.EAST, projectsButton);
 		
-		btnReturnMaterial = new JButton("Return Material");
+		
 		btnReturnMaterial.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -282,7 +293,7 @@ public class StandardMainMenu extends JPanel {
 		panel.add(btnReturnMaterial, gbc_btnReturnMaterial);
 		currentLayout.putConstraint(SpringLayout.EAST, btnReturnMaterial, 0, SpringLayout.EAST, projectsButton);
 		
-		btnExtraCheckoutMaterials = new JButton("Extra Checkout Materials");
+		
 		btnExtraCheckoutMaterials.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -318,7 +329,7 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnExtraCheckoutMaterials.gridy = 6;
 		panel.add(btnExtraCheckoutMaterials, gbc_btnExtraCheckoutMaterials);
 		
-		btnNewButton_1 = new JButton("Lab Materials");
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -356,7 +367,7 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnNewButton_1.gridy = 7;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
 		
-		btnGetPhoto = new JButton("Get Employee Photo");
+		
 		btnGetPhoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -386,7 +397,7 @@ public class StandardMainMenu extends JPanel {
 			}
 		});
 		
-		btnGetUsersMaterials = new JButton("Get User's Materials");
+		
 		btnGetUsersMaterials.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
@@ -459,5 +470,19 @@ public class StandardMainMenu extends JPanel {
 		panel.add(btnUpdateEmployeePhoto, gbc_btnUpdateEmployeePhoto);
 		
 		
+	}
+	
+	private String prepareForTextArea(ResultSet rs, int type, int col){
+		String output = "";
+		try{
+			if(type == Types.NUMERIC){
+				output = output + rs.getInt(col) + "\t";
+			}else if (type == Types.VARCHAR){
+				output = output + rs.getString(col) + "\t";
+			}
+		}catch(SQLException e){
+			Graphics.createErrorMessage("Could not print out the query to text area");
+		}
+		return output;
 	}
 }
