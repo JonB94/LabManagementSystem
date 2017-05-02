@@ -122,10 +122,32 @@ public class User {
 		return query;
 	}
 	
-	/* NOT SURE IF WE WILL NEED THIS QUERY
-	public String findMaterial(){
-		final String query = "SELECT "
+	public String updatePicture(){
+		final String query = "UPDATE RESEARCHERS"
+							+ "SET Employee_photo = ?"
+							+ "WHERE Employee_id = ?";
+		return query;
 	}
-	*/
 	
+	public String getPhoto(){
+		final String query = "SELECT Employee_photo "
+							+ "FROM RESEARCHERS "
+							+ "WHERE Employee_id = ?";
+		return query;
+	}
+	
+	public String getProjectUpdate(){
+		final String query = "SELECT PROGRESS_REPORT "
+							+ "FROM PROJECTS "
+							+ "WHERE Project_number = ? ";
+		return query;
+	}
+	
+	public String updateProjectReport(){
+		final String query = "UPDATE PROJECTS "
+							+ "SET PROGRESS_REPORT = ? "
+							+ "WHERE PROJECT_NUMBER = ?";
+		return query;
+				
+	}
 }
