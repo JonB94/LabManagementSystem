@@ -7,6 +7,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Driver {
+	
+	private static MainFrame menus;
+	
 	public static void main(String[] args) {
 		ArrayList<String> inputs = new ArrayList<String>();
 		
@@ -40,7 +43,7 @@ public class Driver {
 	    	signInSuccessful = testUser != null;
 	    }
 	    
-	    MainFrame menus = new MainFrame();
+	    menus = new MainFrame();
 	    if(testUser.getUserType() == User.USER_RESEARCHER){
 	    	menus.loadNewFrame(new StandardMainMenu());
 	    }else if(testUser.getUserType() == User.USER_SUPERVISOR){
@@ -48,5 +51,9 @@ public class Driver {
 	    }else if(testUser.getUserType() == User.USER_ADMIN){
 	    	menus.loadNewFrame(new AdminMainMenu());
 	    }
+	}
+	
+	public static MainFrame getMainFrame(){
+		return menus;
 	}
 }
