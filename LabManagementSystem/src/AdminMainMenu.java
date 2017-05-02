@@ -45,7 +45,7 @@ public class AdminMainMenu extends JPanel {
 		setBackground(UIManager.getColor("Button.background"));
 		this.setLayout(currentLayout);
 		
-		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Admin");
+		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Supervisor");
 		currentLayout.putConstraint(SpringLayout.NORTH, lblNewJgoodiesLabel, 10, SpringLayout.NORTH, this);
 		currentLayout.putConstraint(SpringLayout.WEST, lblNewJgoodiesLabel, 374, SpringLayout.WEST, this);
 		lblNewJgoodiesLabel.setFont(new Font("Tahoma", Font.BOLD, 36));
