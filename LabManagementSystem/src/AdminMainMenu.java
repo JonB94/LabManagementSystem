@@ -2,21 +2,25 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.sql.ResultSet;
@@ -79,21 +83,7 @@ public class AdminMainMenu extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				
-				try {
-					/*
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First Name", "Last name", "Salary"}, 
-							"Create");
-					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
-					
-					ArrayList<Integer> types = new ArrayList<Integer>();
-					
-					types.add(Types.VARCHAR);
-					types.add(Types.VARCHAR);
-					types.add(Types.NUMERIC);
-					*/
-					
+				try {					
 					DatabaseHandler.getDatabaseHandler().executeStatement(user.getEmployees(),
 							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
@@ -502,35 +492,31 @@ public class AdminMainMenu extends JPanel {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				
 				try {
-					/*
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First name", "Last name"}, 
-							"Create");
+					String[] outputs = Graphics.createGeneralInputBox(new String[]{"Employee ID"},
+							"Profile Picture");
 					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					ArrayList<String> input = new ArrayList<String>(Arrays.asList(outputs));
 					
 					ArrayList<Integer> types = new ArrayList<Integer>();
+					types.add(Types.NUMERIC);
 					
-					types.add(Types.VARCHAR);
-					types.add(Types.VARCHAR);
-					*/
-					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getPhoto(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getPhoto(), input, types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
 					while(rs.next()){
-						for(int i = 0; i < meta.getColumnCount(); i++){
-							System.out.println("Column Count: " + meta.getColumnCount());
-							textArea.setText("");
-							if(meta.getColumnType(i) == Types.NUMERIC){
-								textArea.setText(rs.getInt(i) + "\t");
-							}else{
-								textArea.setText(rs.getString(i) + "\t");
-							}
+						BufferedImage bi = null;
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							bi = DatabaseHandler.handleBLOB(rs.getBlob(i));
 						}
-						System.out.println();
+						Image output = bi;
+						ImageIcon icon = new ImageIcon(output);
+						JOptionPane.showMessageDialog(
+		                        null,
+		                        "",
+		                        "Profile Picture", JOptionPane.INFORMATION_MESSAGE,
+		                        icon);
 					}
+						System.out.println();
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -551,7 +537,7 @@ public class AdminMainMenu extends JPanel {
 				try {
 					
 					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"Photo", "Employee ID"}, 
+							new String[]{"Photo Path", "Employee ID"}, 
 							"Create");
 					
 					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
@@ -561,11 +547,12 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.BLOB);
 					types.add(Types.NUMERIC);
 					
-					
-					
 					DatabaseHandler.getDatabaseHandler().executeStatement(user.updatePicture(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					textArea.setText("");
+					textArea.append("Successfully changed the profile picture\n");
+					
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -662,18 +649,6 @@ public class AdminMainMenu extends JPanel {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				
 				try {
-					/*
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First name", "Last name"}, 
-							"Create");
-					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
-					
-					ArrayList<Integer> types = new ArrayList<Integer>();
-					
-					types.add(Types.VARCHAR);
-					types.add(Types.VARCHAR);
-					*/
 					
 					DatabaseHandler.getDatabaseHandler().executeStatement(user.getLabMaterials(),
 							new ArrayList<String>(), new ArrayList<Integer>());

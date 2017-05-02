@@ -137,8 +137,8 @@ public class User {
 	}
 	
 	public String updatePicture(){
-		final String query = "UPDATE RESEARCHERS"
-							+ "SET Employee_photo = ?"
+		final String query = "UPDATE RESEARCHERS "
+							+ "SET Employee_photo = ? "
 							+ "WHERE Employee_id = ?";
 		return query;
 	}
