@@ -56,8 +56,8 @@ public class AdminMainMenu extends JPanel {
 		add(scrollPane);
 		
 		final JTextArea textArea = new JTextArea();
+		textArea.setRows(10);
 		textArea.setBackground(UIManager.getColor("Button.background"));
-		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		JPanel panel = new JPanel();
@@ -68,9 +68,9 @@ public class AdminMainMenu extends JPanel {
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{109, 97, 103, 153, 107, 119, 71, 89, 135, 181, 0};
-		gbl_panel.rowHeights = new int[] {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0, 0.0};
 		panel.setLayout(gbl_panel);
 		
 		
@@ -94,9 +94,20 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					*/
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getEmployees(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getEmployees(),
+							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -128,12 +139,39 @@ public class AdminMainMenu extends JPanel {
 		panel.add(button_AddMaterials, gbc_button_AddMaterials);
 		currentLayout.putConstraint(SpringLayout.EAST, button_AddMaterials, -191, SpringLayout.EAST, this);
 		button_AddMaterials.addActionListener(new ActionListener(){
+
 			
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				Driver.getMainFrame().loadNewFrame(new AddMaterials());
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Name", "Model Number", "Quantity", "Manufacturer", "Returnable? (TRUE/FALSE)"}, 
+							"Add Material");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.addMaterials(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					System.out.println("updated");
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
 				
 			}
+			
+			
 			
 			
 		});
@@ -198,9 +236,20 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					*/
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getExtraCheckoutMaterials(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getExtraCheckoutMaterials(),
+							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -224,7 +273,7 @@ public class AdminMainMenu extends JPanel {
 				try {
 					
 					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"Amount returned", "Employee ID"}, 
+							new String[]{"Amount returned", "Model Number"}, 
 							"Create");
 					
 					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
@@ -235,9 +284,10 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.returnMaterial(), test, 
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.returnMaterial(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					System.out.println("updated");
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -292,23 +342,22 @@ public class AdminMainMenu extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				try {
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjects(), new ArrayList<String>(), new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjects(),
+							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
-					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
 					while(rs.next()){
-						for(int i = 0; i < meta.getColumnCount(); i++){
-							System.out.println("Column Count: " + meta.getColumnCount());
-							textArea.setText("");
-							if(meta.getColumnType(i) == Types.NUMERIC){
-								textArea.setText(rs.getInt(i) + "\t");
-							}else{
-								textArea.setText(rs.getString(i) + "\t");
-							}
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
 						}
-						System.out.println();
+						out = out + "\n";
 					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
-					Graphics.createErrorMessage("Could not properly fetch the projects");
+					Graphics.createErrorMessage("Could not execute the query properly");
 				}
 				
 			}
@@ -326,23 +375,30 @@ public class AdminMainMenu extends JPanel {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				
 				try {
-					/*
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First Name", "Last name", "Salary"}, 
-							"Create");
+					String[] output = Graphics.createGeneralInputBox(new String[]{"First Name", "Last Name"},
+							"Projects");
 					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					ArrayList<String> input = new ArrayList<String>(Arrays.asList(output));
 					
 					ArrayList<Integer> types = new ArrayList<Integer>();
-					
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
-					types.add(Types.NUMERIC);
-					*/
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjectsForUser(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getProjectsForUser(),
+							input, 
+							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -361,21 +417,30 @@ public class AdminMainMenu extends JPanel {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
 				
 				try {
+					String[] output = Graphics.createGeneralInputBox(new String[]{"First Name", "Last Name"},
+							"Materials");
 					
-					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First name", "Last name"}, 
-							"Create");
-					
-					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					ArrayList<String> input = new ArrayList<String>(Arrays.asList(output));
 					
 					ArrayList<Integer> types = new ArrayList<Integer>();
-					
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(), test, 
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(),
+							input, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -406,9 +471,20 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
 					*/
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutMaterialsByUser(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getLastCheckouts(),
+							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -442,6 +518,19 @@ public class AdminMainMenu extends JPanel {
 					DatabaseHandler.getDatabaseHandler().executeStatement(user.getPhoto(), new ArrayList<String>(), 
 							new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
+					while(rs.next()){
+						for(int i = 0; i < meta.getColumnCount(); i++){
+							System.out.println("Column Count: " + meta.getColumnCount());
+							textArea.setText("");
+							if(meta.getColumnType(i) == Types.NUMERIC){
+								textArea.setText(rs.getInt(i) + "\t");
+							}else{
+								textArea.setText(rs.getString(i) + "\t");
+							}
+						}
+						System.out.println();
+					}
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -517,13 +606,57 @@ public class AdminMainMenu extends JPanel {
 				
 			}
 		});
+		
+		JButton btnAddResearcher = new JButton("Add Researcher");
+		btnAddResearcher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First name", "Last number", "Employee ID", "SSN", "Date of birth", "SEX", "Address", "Supervisor ID", "Employee Photo"}, 
+							"Add Researcher");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					types.add(Types.DATE);
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					types.add(Types.BLOB);
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.createNewProject(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					System.out.println("updated");
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnAddResearcher = new GridBagConstraints();
+		gbc_btnAddResearcher.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAddResearcher.gridx = 4;
+		gbc_btnAddResearcher.gridy = 16;
+		panel.add(btnAddResearcher, gbc_btnAddResearcher);
+		
+		
 		GridBagConstraints gbc_btnRemoveResearcher = new GridBagConstraints();
 		gbc_btnRemoveResearcher.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRemoveResearcher.gridx = 4;
-		gbc_btnRemoveResearcher.gridy = 16;
+		gbc_btnRemoveResearcher.gridy = 17;
 		panel.add(btnRemoveResearcher, gbc_btnRemoveResearcher);
 		
-		JButton btnGetMaterialsOf = new JButton("Get Materials of All Users");
+		JButton btnGetMaterialsOf = new JButton("Get All Materials");
 		btnGetMaterialsOf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				AdminUser user = (AdminUser) User.getUser(User.USER_ADMIN);
@@ -542,9 +675,20 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.VARCHAR);
 					*/
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.getCheckoutOfAllUsers(), new ArrayList<String>(), 
-							new ArrayList<Integer>());
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getLabMaterials(),
+							new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -554,7 +698,7 @@ public class AdminMainMenu extends JPanel {
 		GridBagConstraints gbc_btnGetMaterialsOf = new GridBagConstraints();
 		gbc_btnGetMaterialsOf.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetMaterialsOf.gridx = 4;
-		gbc_btnGetMaterialsOf.gridy = 17;
+		gbc_btnGetMaterialsOf.gridy = 18;
 		panel.add(btnGetMaterialsOf, gbc_btnGetMaterialsOf);
 		
 		JButton btnRefillMaterials = new JButton("Refill Materials");
@@ -575,9 +719,10 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.VARCHAR);
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.refillMaterials(), test, 
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.refillMaterials(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					System.out.println("Successfully updated");
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -587,10 +732,24 @@ public class AdminMainMenu extends JPanel {
 		GridBagConstraints gbc_btnRefillMaterials = new GridBagConstraints();
 		gbc_btnRefillMaterials.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRefillMaterials.gridx = 4;
-		gbc_btnRefillMaterials.gridy = 18;
+		gbc_btnRefillMaterials.gridy = 19;
 		panel.add(btnRefillMaterials, gbc_btnRefillMaterials);
 		
 		
 
+	}
+	
+	private String prepareForTextArea(ResultSet rs, int type, int col){
+		String output = "";
+		try{
+			if(type == Types.NUMERIC){
+				output = output + rs.getInt(col) + "\t";
+			}else if (type == Types.VARCHAR){
+				output = output + rs.getString(col) + "\t";
+			}
+		}catch(SQLException e){
+			Graphics.createErrorMessage("Could not print out the query to text area");
+		}
+		return output;
 	}
 }

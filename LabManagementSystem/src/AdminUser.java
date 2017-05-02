@@ -38,7 +38,7 @@ public class AdminUser extends User {
 	public String refillMaterials(){
 		final String query = "UPDATE LAB_MATERIALS "
 							+ "SET Quantity = Quantity + 5 "
-							+ "WHERE Manufacturer LIKE '?%' ";
+							+ "WHERE Manufacturer = ? ";
 		return query;
 
 	}
