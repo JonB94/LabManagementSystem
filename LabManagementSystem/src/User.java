@@ -104,8 +104,8 @@ public class User {
 	public String getResearchersUnderSup(){
 		final String query = "SELECT R.First_name, R.Last_name, R.Employee_id "
 							+ "FROM RESEARCHERS R LEFT OUTER JOIN RESEARCHERS S on R.Supervisor_id = S.Employee_id "
-							+ "WHERE R.SUPERVISOR_ID = S.EMPLOYEE_ID AND S.First_name = '?' "
-							+ "AND S.Last_name = '?' "
+							+ "WHERE R.SUPERVISOR_ID = S.EMPLOYEE_ID AND S.First_name = ? "
+							+ "AND S.Last_name = ? "
 							+ "ORDER BY R.Last_name, R.First_name";
 		return query;
 	}
@@ -115,7 +115,7 @@ public class User {
 							+ "FROM LAB_MATERIALS L LEFT OUTER JOIN CHECKS_OUT C on L.Model_number = C.Model_number "
 							+ "WHERE C.EMPLOYEE_ID IN (SELECT R.EMPLOYEE_ID "
 							+ "FROM RESEARCHERS R "
-							+ "WHERE R.FIRST_NAME = '?' AND R.Last_name = '?')";
+							+ "WHERE R.FIRST_NAME = ? AND R.Last_name = ?)";
 		return query;
 	}
 	

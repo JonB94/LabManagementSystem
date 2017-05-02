@@ -540,7 +540,47 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnUpdateProgressReport.gridy = 12;
 		panel.add(btnUpdateProgressReport, gbc_btnUpdateProgressReport);
 		
-		btnGetSupervisor = new JButton("Get Supervisor");
+		btnGetSupervisor = new JButton("Get Employees of Supervisor");
+		btnGetSupervisor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"first name", "last name"}, 
+							"Employees Under");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getResearchersUnderSup(), test, 
+							types);
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+					ResultSetMetaData meta = rs.getMetaData();
+					String out = "";
+					while(rs.next()){
+						
+						for(int i = 1; i <= meta.getColumnCount(); i++){
+							out = out + prepareForTextArea(rs, meta.getColumnType(i), i);
+						}
+						out = out + "\n";
+					}
+					textArea.setText("");
+					textArea.append(out);
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		
 		GridBagConstraints gbc_btnGetSupervisor = new GridBagConstraints();
 		gbc_btnGetSupervisor.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGetSupervisor.gridx = 3;
