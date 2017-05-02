@@ -9,7 +9,9 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
@@ -24,6 +26,7 @@ public class StandardMainMenu extends JPanel {
 	private JButton checkoutButton;
 	private SpringLayout currentLayout;
 	private JScrollPane scroll;
+	private JTextArea textArea;
 	private JButton btnMyProjects;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
@@ -34,6 +37,8 @@ public class StandardMainMenu extends JPanel {
 	public StandardMainMenu(){
 		
 		setPreferredSize(new Dimension(900,600));
+		textArea = new JTextArea();
+		textArea.setSize(new Dimension(500,600));
 		projectsButton = new JButton("Projects");		
 		currentLayout = new SpringLayout();
 		currentLayout.putConstraint(SpringLayout.SOUTH, projectsButton, -283, SpringLayout.SOUTH, this);
@@ -44,7 +49,7 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.WEST, scroll, 0, SpringLayout.WEST, this);
 		currentLayout.putConstraint(SpringLayout.SOUTH, scroll, 0, SpringLayout.SOUTH, this);
 		scroll.setPreferredSize(new Dimension(500,600));
-		
+		scroll.add(textArea);
 		
 		setupPanel();
 	}
@@ -58,14 +63,26 @@ public class StandardMainMenu extends JPanel {
 				User stand = User.getUser(User.USER_RESEARCHER);
 				try {
 					DatabaseHandler.getDatabaseHandler().executeStatement(stand.getProjects(), new ArrayList());
+					System.out.println("Hello1");
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
-					System.out.println("HELLO");
+					System.out.println("Hello2");
+					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
+					System.out.println("Hello3");
 					while(rs.next()){
-						//Write to text area that I think Nathan deleted
+						for(int i = 0; i < meta.getColumnCount(); i++){
+							System.out.println("Column Count: " + meta.getColumnCount());
+							textArea.setText("");
+							if(meta.getColumnType(i) == Types.NUMERIC){
+								textArea.setText(rs.getInt(i) + "\t");
+							}else{
+								textArea.setText(rs.getString(i) + "\t");
+							}
+						}
+						System.out.println();
 					}
 				} catch (SQLException e) {
 					//Maybe create a popup box to handle this message
-					System.out.println("Could not properly fetch the projects");
+					Graphics.createErrorMessage("Could not properly fetch the projects");
 				}
 				
 			}

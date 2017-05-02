@@ -27,13 +27,16 @@ public class DatabaseHandler {
 		try {
 			con = DriverManager.getConnection(url, username, pass);
 		} catch (SQLException e) {
-			System.out.println("Could not establish connection");
+			Graphics.createErrorMessage("Could not establish connection");
 		}
 	}
 	
 	public void executeStatement(String query, ArrayList<String> optionals) {
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
+			System.out.println("Your query is: " + query);
+			System.out.println("The size of your optionals is: " + optionals.size());
+			System.out.println("The contents of your optionals is: " + optionals.toString());
 			for(int i = 0; i < optionals.size(); i++) {
 				ps.setString(i+1, optionals.get(i));
 			}
@@ -48,6 +51,9 @@ public class DatabaseHandler {
 	public int executeUpdate(String query, ArrayList<String> optionals) {
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
+			System.out.println("Your query is: " + query);
+			System.out.println("The size of your optionals is: " + optionals.size());
+			System.out.println("The contents of your optionals is: " + optionals.toString());
 			for(int i = 0; i < optionals.size(); i++) {
 				ps.setString(i+1, optionals.get(i));
 			}
@@ -66,9 +72,9 @@ public class DatabaseHandler {
 		try {
 			return rs.getMetaData();
 		} catch (SQLException e) {
-			System.out.println("Could not get the meta data for the latest query");
+			Graphics.createErrorMessage("Could not get the meta data for the latest query");
 		} catch (NullPointerException e) {
-			System.out.println("Query needs to be executed before metadata can be obtained");
+			Graphics.createErrorMessage("Query needs to be executed before metadata can be obtained");
 		}
 		return null;
 	}
