@@ -89,6 +89,30 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.WEST, btnNewButton, 120, SpringLayout.EAST, scroll);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First Name", "Last name", "Salary"}, 
+							"Create");
+					
+					ArrayList<String> test = outputs;
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getEmployees(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
 			}
 		});
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 6, SpringLayout.SOUTH, btnNewButton_1);
@@ -107,18 +131,17 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnMyProjects.gridx = 3;
 		gbc_btnMyProjects.gridy = 2;
 		panel.add(btnMyProjects, gbc_btnMyProjects);
+		
+		
 		projectsButton = new JButton("Projects");
 		currentLayout.putConstraint(SpringLayout.WEST, projectsButton, 120, SpringLayout.EAST, scroll);
 		projectsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				User stand = User.getUser(User.USER_RESEARCHER);
 				try {
-					DatabaseHandler.getDatabaseHandler().executeStatement(stand.getProjects(), new ArrayList());
-					System.out.println("Hello1");
+					DatabaseHandler.getDatabaseHandler().executeStatement(stand.getProjects(), new ArrayList<String>(), new ArrayList<Integer>());
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
-					System.out.println("Hello2");
 					ResultSetMetaData meta = DatabaseHandler.getDatabaseHandler().getMetaData();
-					System.out.println("Hello3");
 					while(rs.next()){
 						for(int i = 0; i < meta.getColumnCount(); i++){
 							System.out.println("Column Count: " + meta.getColumnCount());
@@ -132,7 +155,6 @@ public class StandardMainMenu extends JPanel {
 						System.out.println();
 					}
 				} catch (SQLException e) {
-					//Maybe create a popup box to handle this message
 					Graphics.createErrorMessage("Could not properly fetch the projects");
 				}
 				

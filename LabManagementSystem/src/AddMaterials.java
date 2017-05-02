@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -130,13 +131,27 @@ public class AddMaterials extends JPanel {
 				try {
 					ArrayList<String> fields = new ArrayList<String>();
 					fields.add(textField_name.getText());
-					fields.add(textField_modelnumber.getText());
+					fields.add(textField_modelnumber.getText().trim());
 					fields.add(textField_quantity.getText().trim());
 					fields.add(textField_manufacturer.getText());
 					fields.add(textField_returnable.getText());
-					int count = DatabaseHandler.getDatabaseHandler().executeUpdate(admin.addMaterials(), fields);
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					types.add(Types.NUMERIC);
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					int count = DatabaseHandler.getDatabaseHandler().executeUpdate(admin.addMaterials(), fields, types);
 					if(count >= 1){
 						System.out.println("Successfully added " + count + " of " + textField_name.getText());
+					}
+					if(User.getUser(User.USER_RESEARCHER).getUserType() == User.USER_RESEARCHER){
+					    	Driver.getMainFrame().loadNewFrame(new StandardMainMenu());
+					}else if(User.getUser(User.USER_SUPERVISOR).getUserType() == User.USER_SUPERVISOR){
+					    	Driver.getMainFrame().loadNewFrame(new SupervisorMainMenu());
+					}else if(User.getUser(User.USER_ADMIN).getUserType() == User.USER_ADMIN){
+					    	Driver.getMainFrame().loadNewFrame(new AdminMainMenu());
 					}
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not properly fetch the projects");

@@ -82,11 +82,10 @@ public class AdminMainMenu extends JPanel {
 		panel.add(button_AddMaterials, gbc_button_AddMaterials);
 		currentLayout.putConstraint(SpringLayout.EAST, button_AddMaterials, -191, SpringLayout.EAST, this);
 		button_AddMaterials.addActionListener(new ActionListener(){
-			MainFrame menus = new MainFrame();
-			@Override
+			
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				menus.loadNewFrame(new AddMaterials());
+				Driver.getMainFrame().loadNewFrame(new AddMaterials());
 				
 			}
 			
@@ -104,11 +103,11 @@ public class AdminMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, button_CreateProject, 153, SpringLayout.NORTH, this);
 		
 		button_CreateProject.addActionListener(new ActionListener(){
-			MainFrame menus = new MainFrame();
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				menus.loadNewFrame(new CreateProject());
+				Driver.getMainFrame().loadNewFrame(new CreateProject());
 				
 			}
 			
