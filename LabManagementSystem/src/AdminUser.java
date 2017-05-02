@@ -42,4 +42,10 @@ public class AdminUser extends User {
 		return query;
 
 	}
+	
+	public String addResearcher(){
+		final String query = "INSERT INTO RESEARCHERS (First_name, Last_name, Employee_id, ssn, DOB, sex, Address, Supervisor_id) "
+							+ "VALUES (?,?,?,?,TO_DATE(?, 'yyyy/mm/dd hh24:mi:ss'),?,?,?)";
+		return query;
+	}
 }

@@ -73,7 +73,7 @@ public class User {
 	
 	public String returnMaterial(){
 		final String query = "UPDATE Checks_out "
-							+ "SET Amount_returned = ? "
+							+ "SET Amount_returned = ?, Amount = Amount + ? "
 							+ "WHERE Model_number = ?";
 		return query;
 	}
@@ -84,7 +84,7 @@ public class User {
 							+ "WHERE Model_number = ?";
 		return query;
 	}
-	
+
 	public String updateLabMaterialAmount(){
 		final String query = "UPDATE Lab_materials "
 							+ "SET Quantity = Quantity + ? "

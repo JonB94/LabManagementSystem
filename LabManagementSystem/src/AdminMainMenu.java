@@ -270,6 +270,12 @@ public class AdminMainMenu extends JPanel {
 					
 					ArrayList<Integer> types = new ArrayList<Integer>();
 					
+					ArrayList<String> newTest = new ArrayList<String>();
+					newTest.add(test.get(0));
+					newTest.add(test.get(0));
+					newTest.add(test.get(1));
+		
+					types.add(Types.NUMERIC);
 					types.add(Types.NUMERIC);
 					types.add(Types.NUMERIC);
 					
@@ -278,6 +284,8 @@ public class AdminMainMenu extends JPanel {
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 					System.out.println("updated");
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.updateLabMaterialAmount(), test, types);
+					
 				} catch (SQLException e) {
 					Graphics.createErrorMessage("Could not execute the query properly");
 				}
@@ -310,7 +318,7 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.NUMERIC);
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeStatement(user.checkoutMaterial(), test, 
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.checkoutMaterial(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 				} catch (SQLException e) {
@@ -601,7 +609,7 @@ public class AdminMainMenu extends JPanel {
 				try {
 					
 					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First name", "Last name", "Employee ID", "SSN", "Date of birth", "SEX", "Address", "Supervisor ID", "Employee Photo"}, 
+							new String[]{"First name", "Last name", "Employee ID", "SSN", "Date of birth", "SEX", "Address", "Supervisor ID"}, 
 							"Add Researcher");
 					
 					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
@@ -616,10 +624,9 @@ public class AdminMainMenu extends JPanel {
 					types.add(Types.VARCHAR);
 					types.add(Types.VARCHAR);
 					types.add(Types.NUMERIC);
-					types.add(Types.BLOB);
 					
 					
-					DatabaseHandler.getDatabaseHandler().executeUpdate(user.createNewProject(), test, 
+					DatabaseHandler.getDatabaseHandler().executeUpdate(user.addResearcher(), test, 
 							types);
 					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
 					System.out.println("updated");
