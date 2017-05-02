@@ -60,6 +60,8 @@ public class StandardMainMenu extends JPanel {
 	private JButton btnExtraCheckoutMaterials;
 	private JButton btnGetPhoto;
 	private JButton btnGetUsersMaterials;
+	private JButton btnGetProgressReport;
+	private JButton btnUpdateProgressReport;
 	
 	public StandardMainMenu(){
 		
@@ -109,9 +111,9 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, btnMyProjects, 0, SpringLayout.EAST, btnNewButton);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{107, 119, 71, 89, 97, 153, 95, 0};
-		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		
@@ -522,6 +524,20 @@ public class StandardMainMenu extends JPanel {
 		gbc_btnUpdateEmployeePhoto.gridx = 3;
 		gbc_btnUpdateEmployeePhoto.gridy = 10;
 		panel.add(btnUpdateEmployeePhoto, gbc_btnUpdateEmployeePhoto);
+		
+		btnGetProgressReport = new JButton("Get Progress Report");
+		GridBagConstraints gbc_btnGetProgressReport = new GridBagConstraints();
+		gbc_btnGetProgressReport.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGetProgressReport.gridx = 3;
+		gbc_btnGetProgressReport.gridy = 11;
+		panel.add(btnGetProgressReport, gbc_btnGetProgressReport);
+		
+		btnUpdateProgressReport = new JButton("Update Progress Report");
+		GridBagConstraints gbc_btnUpdateProgressReport = new GridBagConstraints();
+		gbc_btnUpdateProgressReport.insets = new Insets(0, 0, 5, 5);
+		gbc_btnUpdateProgressReport.gridx = 3;
+		gbc_btnUpdateProgressReport.gridy = 12;
+		panel.add(btnUpdateProgressReport, gbc_btnUpdateProgressReport);
 		
 		
 	}
