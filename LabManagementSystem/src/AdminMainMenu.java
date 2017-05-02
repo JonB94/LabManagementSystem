@@ -602,7 +602,7 @@ public class AdminMainMenu extends JPanel {
 				try {
 					
 					String [] outputs = Graphics.createGeneralInputBox(
-							new String[]{"First name", "Last number", "Employee ID", "SSN", "Date of birth", "SEX", "Address", "Supervisor ID", "Employee Photo"}, 
+							new String[]{"First name", "Last name", "Employee ID", "SSN", "Date of birth", "SEX", "Address", "Supervisor ID", "Employee Photo"}, 
 							"Add Researcher");
 					
 					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
