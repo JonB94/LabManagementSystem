@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import javax.swing.UIManager;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class StandardMainMenu extends JPanel {
 
@@ -22,6 +24,12 @@ public class StandardMainMenu extends JPanel {
 	private JButton checkoutButton;
 	private SpringLayout currentLayout;
 	private JScrollPane scroll;
+	private JButton btnMyProjects;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
+	private JButton btnReturnMaterial;
+	private JButton btnExtraCheckoutMaterials;
 	
 	public StandardMainMenu(){
 		
@@ -31,6 +39,10 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.SOUTH, projectsButton, -283, SpringLayout.SOUTH, this);
 		currentLayout.putConstraint(SpringLayout.EAST, projectsButton, -66, SpringLayout.EAST, this);
 		scroll = new JScrollPane (JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		currentLayout.putConstraint(SpringLayout.WEST, projectsButton, 244, SpringLayout.EAST, scroll);
+		currentLayout.putConstraint(SpringLayout.NORTH, scroll, -524, SpringLayout.SOUTH, this);
+		currentLayout.putConstraint(SpringLayout.WEST, scroll, 0, SpringLayout.WEST, this);
+		currentLayout.putConstraint(SpringLayout.SOUTH, scroll, 0, SpringLayout.SOUTH, this);
 		scroll.setPreferredSize(new Dimension(500,600));
 		
 		
@@ -38,16 +50,9 @@ public class StandardMainMenu extends JPanel {
 	}
 
 	private void setupPanel() {
-		setBackground(new Color(255,255,255));
+		setBackground(UIManager.getColor("Button.background"));
 		this.setLayout(currentLayout);
 		this.add(projectsButton);
-		
-		JButton managerButton = new JButton("Manager");
-		currentLayout.putConstraint(SpringLayout.NORTH, managerButton, 27, SpringLayout.SOUTH, projectsButton);
-		currentLayout.putConstraint(SpringLayout.WEST, managerButton, 244, SpringLayout.EAST, scroll);
-		currentLayout.putConstraint(SpringLayout.SOUTH, managerButton, -233, SpringLayout.SOUTH, this);
-		currentLayout.putConstraint(SpringLayout.EAST, managerButton, -66, SpringLayout.EAST, this);
-		currentLayout.putConstraint(SpringLayout.WEST, projectsButton, 0, SpringLayout.WEST, managerButton);
 		projectsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				User stand = User.getUser(User.USER_RESEARCHER);
@@ -65,8 +70,48 @@ public class StandardMainMenu extends JPanel {
 				
 			}
 		});
-		add(managerButton);
 		this.add(scroll);
+		
+		btnMyProjects = new JButton("My Projects");
+		currentLayout.putConstraint(SpringLayout.WEST, btnMyProjects, 0, SpringLayout.WEST, projectsButton);
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnMyProjects, -28, SpringLayout.NORTH, projectsButton);
+		add(btnMyProjects);
+		
+		btnNewButton = new JButton("Employee List");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -24, SpringLayout.NORTH, btnMyProjects);
+		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, projectsButton);
+		add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Lab Materials");
+		currentLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 0, SpringLayout.WEST, projectsButton);
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -12, SpringLayout.NORTH, btnNewButton);
+		add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("Checkout Material");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 33, SpringLayout.SOUTH, projectsButton);
+		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton_2, 0, SpringLayout.EAST, projectsButton);
+		add(btnNewButton_2);
+		
+		btnReturnMaterial = new JButton("Return Material");
+		currentLayout.putConstraint(SpringLayout.SOUTH, btnReturnMaterial, -160, SpringLayout.SOUTH, this);
+		currentLayout.putConstraint(SpringLayout.EAST, btnReturnMaterial, 0, SpringLayout.EAST, projectsButton);
+		add(btnReturnMaterial);
+		
+		btnExtraCheckoutMaterials = new JButton("Extra Checkout Materials");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnExtraCheckoutMaterials, 26, SpringLayout.SOUTH, btnReturnMaterial);
+		currentLayout.putConstraint(SpringLayout.EAST, btnExtraCheckoutMaterials, 0, SpringLayout.EAST, projectsButton);
+		add(btnExtraCheckoutMaterials);
+		
+		JLabel lblEmployee = new JLabel("Employee");
+		lblEmployee.setFont(new Font("Tahoma", Font.BOLD, 36));
+		lblEmployee.setForeground(Color.ORANGE);
+		currentLayout.putConstraint(SpringLayout.NORTH, lblEmployee, 10, SpringLayout.NORTH, this);
+		currentLayout.putConstraint(SpringLayout.WEST, lblEmployee, 341, SpringLayout.WEST, this);
+		add(lblEmployee);
 		
 		
 	}

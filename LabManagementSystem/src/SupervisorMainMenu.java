@@ -60,7 +60,7 @@ public class SupervisorMainMenu extends JPanel {
 		createProject.setBounds(136, 188, 113, 23);
 		add(createProject);
 		
-		JButton btnViewEmployees = new JButton("View Employees");
+		JButton btnViewEmployees = new JButton("Employee List");
 		currentLayout.putConstraint(SpringLayout.SOUTH, btnViewEmployees, -249, SpringLayout.SOUTH, this);
 		currentLayout.putConstraint(SpringLayout.EAST, btnViewEmployees, 0, SpringLayout.EAST, addMaterials);
 		add(btnViewEmployees);
@@ -88,6 +88,36 @@ public class SupervisorMainMenu extends JPanel {
 		textArea.setBackground(UIManager.getColor("Button.background"));
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
+		
+		JButton btnNewButton = new JButton("My Projects");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 13, SpringLayout.SOUTH, btnViewProjects);
+		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, addMaterials);
+		add(btnNewButton);
+		
+		JButton button = new JButton("Lab Materials");
+		currentLayout.putConstraint(SpringLayout.SOUTH, button, -23, SpringLayout.NORTH, btnViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button, 0, SpringLayout.EAST, addMaterials);
+		add(button);
+		
+		JButton button_1 = new JButton("Checkout Material");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_1, 16, SpringLayout.SOUTH, btnNewButton);
+		currentLayout.putConstraint(SpringLayout.EAST, button_1, 0, SpringLayout.EAST, addMaterials);
+		add(button_1);
+		
+		JButton button_2 = new JButton("Return Material");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_2, 16, SpringLayout.SOUTH, button_1);
+		currentLayout.putConstraint(SpringLayout.EAST, button_2, 0, SpringLayout.EAST, addMaterials);
+		add(button_2);
+		
+		JButton button_3 = new JButton("Extra Checkout Materials");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_3, 16, SpringLayout.SOUTH, button_2);
+		currentLayout.putConstraint(SpringLayout.EAST, button_3, 0, SpringLayout.EAST, addMaterials);
+		add(button_3);
+		
+		JButton btnResearchersUnderMe = new JButton("Researchers Under Me");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnResearchersUnderMe, 23, SpringLayout.SOUTH, createProject);
+		currentLayout.putConstraint(SpringLayout.EAST, btnResearchersUnderMe, 0, SpringLayout.EAST, addMaterials);
+		add(btnResearchersUnderMe);
 		
 		
 		createProject.addActionListener(new ActionListener(){

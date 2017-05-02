@@ -33,24 +33,19 @@ public class AdminMainMenu extends JPanel {
 		
 		
 		JButton button_ViewEmployees = new JButton("View Employees");
-		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, -191, SpringLayout.EAST, this);
 		add(button_ViewEmployees);
 		
 		JButton button_AddMaterials = new JButton("Add Materials");
-		currentLayout.putConstraint(SpringLayout.EAST, button_AddMaterials, 0, SpringLayout.EAST, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_AddMaterials, -191, SpringLayout.EAST, this);
+		currentLayout.putConstraint(SpringLayout.EAST, button_ViewEmployees, 0, SpringLayout.EAST, button_AddMaterials);
 		add(button_AddMaterials);
 		
 		JButton button_CreateProject = new JButton("Create Project");
+		currentLayout.putConstraint(SpringLayout.EAST, button_CreateProject, -191, SpringLayout.EAST, this);
+		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 23, SpringLayout.SOUTH, button_CreateProject);
 		currentLayout.putConstraint(SpringLayout.NORTH, button_CreateProject, 153, SpringLayout.NORTH, this);
 		currentLayout.putConstraint(SpringLayout.SOUTH, button_AddMaterials, -20, SpringLayout.NORTH, button_CreateProject);
-		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewEmployees, 78, SpringLayout.SOUTH, button_CreateProject);
-		currentLayout.putConstraint(SpringLayout.EAST, button_CreateProject, 0, SpringLayout.EAST, button_ViewEmployees);
 		add(button_CreateProject);
-		
-		JButton button_ViewProjects = new JButton("View Projects");
-		currentLayout.putConstraint(SpringLayout.NORTH, button_ViewProjects, 17, SpringLayout.SOUTH, button_ViewEmployees);
-		currentLayout.putConstraint(SpringLayout.EAST, button_ViewProjects, 0, SpringLayout.EAST, button_ViewEmployees);
-		add(button_ViewProjects);
 		
 		JLabel lblNewJgoodiesLabel = DefaultComponentFactory.getInstance().createLabel("Admin");
 		currentLayout.putConstraint(SpringLayout.NORTH, lblNewJgoodiesLabel, 10, SpringLayout.NORTH, this);
@@ -70,6 +65,41 @@ public class AdminMainMenu extends JPanel {
 		textArea.setBackground(UIManager.getColor("Button.background"));
 		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
+		
+		JButton button = new JButton("Extra Checkout Materials");
+		currentLayout.putConstraint(SpringLayout.NORTH, button, 381, SpringLayout.NORTH, this);
+		currentLayout.putConstraint(SpringLayout.EAST, button, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(button);
+		
+		JButton button_1 = new JButton("Return Material");
+		currentLayout.putConstraint(SpringLayout.SOUTH, button_1, -16, SpringLayout.NORTH, button);
+		currentLayout.putConstraint(SpringLayout.EAST, button_1, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(button_1);
+		
+		JButton button_2 = new JButton("Checkout Material");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_2, 31, SpringLayout.SOUTH, button_ViewEmployees);
+		currentLayout.putConstraint(SpringLayout.EAST, button_2, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(button_2);
+		
+		JButton button_3 = new JButton("Projects");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_3, 17, SpringLayout.SOUTH, button);
+		currentLayout.putConstraint(SpringLayout.EAST, button_3, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(button_3);
+		
+		JButton button_4 = new JButton("My Projects");
+		currentLayout.putConstraint(SpringLayout.NORTH, button_4, 26, SpringLayout.SOUTH, button_2);
+		currentLayout.putConstraint(SpringLayout.EAST, button_4, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(button_4);
+		
+		JButton btnGetMaterialsBy = new JButton("Get Materials by User");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnGetMaterialsBy, 21, SpringLayout.SOUTH, button_3);
+		currentLayout.putConstraint(SpringLayout.EAST, btnGetMaterialsBy, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(btnGetMaterialsBy);
+		
+		JButton btnGetLastChecked = new JButton("Get Last Checked out Materials");
+		currentLayout.putConstraint(SpringLayout.NORTH, btnGetLastChecked, 11, SpringLayout.SOUTH, btnGetMaterialsBy);
+		currentLayout.putConstraint(SpringLayout.EAST, btnGetLastChecked, 0, SpringLayout.EAST, button_ViewEmployees);
+		add(btnGetLastChecked);
 		
 		button_CreateProject.addActionListener(new ActionListener(){
 			MainFrame menus = new MainFrame();
