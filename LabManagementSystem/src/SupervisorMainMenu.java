@@ -86,9 +86,9 @@ public class SupervisorMainMenu extends JPanel {
 		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{126, 5, 128, 0};
-		gbl_panel.rowHeights = new int[] {30, 30, 30, 30, 30, 30, 30, 30, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {30, 30, 30, 30, 30, 30, 30, 30, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		currentLayout.putConstraint(SpringLayout.NORTH, btnResearchersUnderMe, 23, SpringLayout.SOUTH, createProject);
 		currentLayout.putConstraint(SpringLayout.NORTH, createProject, 24, SpringLayout.SOUTH, addMaterials);
@@ -190,11 +190,26 @@ public class SupervisorMainMenu extends JPanel {
 		
 		
 		GridBagConstraints gbc_btnViewProjects = new GridBagConstraints();
+		gbc_btnViewProjects.insets = new Insets(0, 0, 5, 0);
 		gbc_btnViewProjects.gridx = 2;
 		gbc_btnViewProjects.gridy = 10;
 		panel.add(btnViewProjects, gbc_btnViewProjects);
 		currentLayout.putConstraint(SpringLayout.NORTH, btnViewProjects, 20, SpringLayout.SOUTH, btnViewEmployees);
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 13, SpringLayout.SOUTH, btnViewProjects);
+		
+		JButton button_getPhoto = new JButton("Get Employee Photo");
+		GridBagConstraints gbc_button_getPhoto = new GridBagConstraints();
+		gbc_button_getPhoto.insets = new Insets(0, 0, 5, 0);
+		gbc_button_getPhoto.gridx = 2;
+		gbc_button_getPhoto.gridy = 11;
+		panel.add(button_getPhoto, gbc_button_getPhoto);
+		
+		JButton button_UpdateEmployeePhoto = new JButton("Update Employee Photo");
+		GridBagConstraints gbc_button_UpdateEmployeePhoto = new GridBagConstraints();
+		gbc_button_UpdateEmployeePhoto.insets = new Insets(0, 0, 5, 0);
+		gbc_button_UpdateEmployeePhoto.gridx = 2;
+		gbc_button_UpdateEmployeePhoto.gridy = 12;
+		panel.add(button_UpdateEmployeePhoto, gbc_button_UpdateEmployeePhoto);
 		addMaterials.addActionListener(new ActionListener(){
 			MainFrame menus = new MainFrame();
 			@Override

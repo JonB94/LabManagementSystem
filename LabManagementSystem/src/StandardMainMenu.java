@@ -49,6 +49,7 @@ public class StandardMainMenu extends JPanel {
 	private JButton btnNewButton_2;
 	private JButton btnReturnMaterial;
 	private JButton btnExtraCheckoutMaterials;
+	private JButton btnGetPhoto;
 	
 	public StandardMainMenu(){
 		
@@ -89,9 +90,9 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, btnMyProjects, 0, SpringLayout.EAST, btnNewButton);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{107, 119, 71, 89, 97, 153, 95, 0};
-		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[] {100, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		btnNewButton = new JButton("Employee List");
@@ -349,10 +350,80 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -127, SpringLayout.EAST, this);
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 133, SpringLayout.NORTH, this);
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 7;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
+		
+		btnGetPhoto = new JButton("Get Employee Photo");
+		btnGetPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
+				
+				try {
+					/*
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"First Name", "Last name", "Salary"}, 
+							"Create");
+					
+					ArrayList<String> test = outputs;
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.VARCHAR);
+					types.add(Types.VARCHAR);
+					types.add(Types.NUMERIC);
+					*/
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.getPhoto(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnGetPhoto = new GridBagConstraints();
+		gbc_btnGetPhoto.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGetPhoto.gridx = 3;
+		gbc_btnGetPhoto.gridy = 8;
+		panel.add(btnGetPhoto, gbc_btnGetPhoto);
+		
+		JButton btnUpdateEmployeePhoto = new JButton("Update Employee Photo");
+		btnUpdateEmployeePhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				StandardUser user = (StandardUser) User.getUser(User.USER_RESEARCHER);
+				
+				try {
+					
+					String [] outputs = Graphics.createGeneralInputBox(
+							new String[]{"Photo", "Employee ID"}, 
+							"Create");
+					
+					ArrayList<String> test = new ArrayList<String>(Arrays.asList(outputs));
+					
+					ArrayList<Integer> types = new ArrayList<Integer>();
+					
+					types.add(Types.BLOB);
+					types.add(Types.NUMERIC);
+					
+					
+					
+					DatabaseHandler.getDatabaseHandler().executeStatement(user.updatePicture(), new ArrayList<String>(), 
+							new ArrayList<Integer>());
+					ResultSet rs = DatabaseHandler.getDatabaseHandler().getResultSet();
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not execute the query properly");
+				}
+				
+			}
+		});
+		GridBagConstraints gbc_btnUpdateEmployeePhoto = new GridBagConstraints();
+		gbc_btnUpdateEmployeePhoto.insets = new Insets(0, 0, 5, 5);
+		gbc_btnUpdateEmployeePhoto.gridx = 3;
+		gbc_btnUpdateEmployeePhoto.gridy = 9;
+		panel.add(btnUpdateEmployeePhoto, gbc_btnUpdateEmployeePhoto);
 		
 		
 	}
