@@ -40,12 +40,12 @@ public class DatabaseHandler {
 			
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			System.out.println("Could not prepare the executable statement properly.");
+			Graphics.createErrorMessage("Could not prepare the executable statement properly.");
 		}
 		
 	}
 	
-	public void executeUpdate(String query, ArrayList<String> optionals) {
+	public int executeUpdate(String query, ArrayList<String> optionals) {
 		try {
 			PreparedStatement ps = con.prepareStatement(query);
 			for(int i = 0; i < optionals.size(); i++) {
@@ -53,9 +53,12 @@ public class DatabaseHandler {
 			}
 			
 			int count = ps.executeUpdate();
+			return count;
 		} catch (SQLException e) {
-			System.out.println("Could not prepare the executable statement properly.");
+			
+			Graphics.createErrorMessage("Could not prepare the executable statement properly.");
 		}
+		return 0;
 		
 	}
 	

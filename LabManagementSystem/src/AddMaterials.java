@@ -9,6 +9,11 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -27,6 +32,8 @@ public class AddMaterials extends JPanel {
 	 * Create the panel.
 	 */
 	public AddMaterials() {
+		
+		
 		setPreferredSize(new Dimension(900,600));
 		currentLayout = new SpringLayout();
 		setBackground(new Color(255,255,255));
@@ -116,6 +123,27 @@ public class AddMaterials extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, btnSubmit, -1, SpringLayout.NORTH, textField_modelnumber);
 		currentLayout.putConstraint(SpringLayout.WEST, btnSubmit, 91, SpringLayout.EAST, textField_modelnumber);
 		add(btnSubmit);
+		
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AdminUser admin = (AdminUser) User.getUser(User.USER_ADMIN);
+				try {
+					ArrayList<String> fields = new ArrayList<String>();
+					fields.add(textField_name.getText());
+					fields.add(textField_modelnumber.getText());
+					fields.add(textField_quantity.getText().trim());
+					fields.add(textField_manufacturer.getText());
+					fields.add(textField_returnable.getText());
+					int count = DatabaseHandler.getDatabaseHandler().executeUpdate(admin.addMaterials(), fields);
+					if(count >= 1){
+						System.out.println("Successfully added " + count + " of " + textField_name.getText());
+					}
+				} catch (SQLException e) {
+					Graphics.createErrorMessage("Could not properly fetch the projects");
+				}
+				
+			}
+		});
 
 	}
 }

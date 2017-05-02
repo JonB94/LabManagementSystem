@@ -46,7 +46,7 @@ public class Driver {
 	    }else if(testUser.getUserType() == User.USER_SUPERVISOR){
 	    	menus.loadNewFrame(new SupervisorMainMenu());
 	    }else if(testUser.getUserType() == User.USER_ADMIN){
-	    	
+	    	menus.loadNewFrame(new AdminMainMenu());
 	    }
 	}
 }
