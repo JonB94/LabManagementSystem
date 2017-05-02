@@ -94,7 +94,6 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 6, SpringLayout.SOUTH, btnNewButton_1);
 		currentLayout.putConstraint(SpringLayout.EAST, btnNewButton, 0, SpringLayout.EAST, btnNewButton_1);
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 1;
@@ -104,7 +103,6 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.WEST, btnMyProjects, 120, SpringLayout.EAST, scroll);
 		currentLayout.putConstraint(SpringLayout.NORTH, btnExtraCheckoutMaterials, 93, SpringLayout.SOUTH, btnMyProjects);
 		GridBagConstraints gbc_btnMyProjects = new GridBagConstraints();
-		gbc_btnMyProjects.anchor = GridBagConstraints.WEST;
 		gbc_btnMyProjects.insets = new Insets(0, 0, 5, 5);
 		gbc_btnMyProjects.gridx = 3;
 		gbc_btnMyProjects.gridy = 2;
@@ -143,7 +141,6 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, projectsButton, 6, SpringLayout.SOUTH, btnMyProjects);
 		currentLayout.putConstraint(SpringLayout.EAST, projectsButton, 0, SpringLayout.EAST, btnMyProjects);
 		GridBagConstraints gbc_projectsButton = new GridBagConstraints();
-		gbc_projectsButton.anchor = GridBagConstraints.WEST;
 		gbc_projectsButton.insets = new Insets(0, 0, 5, 5);
 		gbc_projectsButton.gridx = 3;
 		gbc_projectsButton.gridy = 3;
@@ -152,7 +149,6 @@ public class StandardMainMenu extends JPanel {
 		btnNewButton_2 = new JButton("Checkout Material");
 		currentLayout.putConstraint(SpringLayout.WEST, btnNewButton_2, 120, SpringLayout.EAST, scroll);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton_2.gridx = 3;
 		gbc_btnNewButton_2.gridy = 4;
@@ -163,7 +159,6 @@ public class StandardMainMenu extends JPanel {
 		btnReturnMaterial = new JButton("Return Material");
 		currentLayout.putConstraint(SpringLayout.WEST, btnReturnMaterial, 120, SpringLayout.EAST, scroll);
 		GridBagConstraints gbc_btnReturnMaterial = new GridBagConstraints();
-		gbc_btnReturnMaterial.anchor = GridBagConstraints.WEST;
 		gbc_btnReturnMaterial.insets = new Insets(0, 0, 5, 5);
 		gbc_btnReturnMaterial.gridx = 3;
 		gbc_btnReturnMaterial.gridy = 5;
@@ -173,7 +168,6 @@ public class StandardMainMenu extends JPanel {
 		btnExtraCheckoutMaterials = new JButton("Extra Checkout Materials");
 		currentLayout.putConstraint(SpringLayout.WEST, btnExtraCheckoutMaterials, 120, SpringLayout.EAST, scroll);
 		GridBagConstraints gbc_btnExtraCheckoutMaterials = new GridBagConstraints();
-		gbc_btnExtraCheckoutMaterials.anchor = GridBagConstraints.WEST;
 		gbc_btnExtraCheckoutMaterials.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExtraCheckoutMaterials.gridx = 3;
 		gbc_btnExtraCheckoutMaterials.gridy = 6;
@@ -185,7 +179,6 @@ public class StandardMainMenu extends JPanel {
 		currentLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 133, SpringLayout.NORTH, this);
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton_1.gridx = 3;
 		gbc_btnNewButton_1.gridy = 7;
 		panel.add(btnNewButton_1, gbc_btnNewButton_1);
